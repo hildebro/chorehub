@@ -1,3 +1,10 @@
+## [2.13.2](https://github.com/hildebro/laneh/compare/v2.13.1...v2.13.2) (2026-07-03)
+
+
+### Bug Fixes
+
+* database export not working ([b9cd9fd](https://github.com/hildebro/laneh/commit/b9cd9fd6c3cb6e247a9891acb7ff3d3140fa787d))
+
 ## [2.13.1](https://github.com/hildebro/laneh/compare/v2.13.0...v2.13.1) (2026-06-24)
 
 

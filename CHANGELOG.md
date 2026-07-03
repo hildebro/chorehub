@@ -1,3 +1,10 @@
+## [2.13.3](https://github.com/hildebro/laneh/compare/v2.13.2...v2.13.3) (2026-07-03)
+
+
+### Bug Fixes
+
+* update github action versions ([6fa6e23](https://github.com/hildebro/laneh/commit/6fa6e235daa9d6a4c3f5b63141b22c59d05c4679))
+
 ## [2.13.2](https://github.com/hildebro/laneh/compare/v2.13.1...v2.13.2) (2026-07-03)
 
 

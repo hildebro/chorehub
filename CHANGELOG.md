@@ -1,3 +1,10 @@
+## [2.13.4](https://github.com/hildebro/laneh/compare/v2.13.3...v2.13.4) (2026-07-03)
+
+
+### Bug Fixes
+
+* household RLS applying in exports ([5902feb](https://github.com/hildebro/laneh/commit/5902febe7120af558cf2d52561d30c7699fef3c0))
+
 ## [2.13.3](https://github.com/hildebro/laneh/compare/v2.13.2...v2.13.3) (2026-07-03)
 
 

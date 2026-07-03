@@ -45,6 +45,7 @@
   "demo_mode": "Try Demo Mode",
   "error_category_not_found": "Category not found",
   "error_balance_entry_not_found": "Entry not found",
+  "error_database_export": "There was a server error while trying to download the export.",
   "error_shopping_no_active_categories": "There are currently no active items.",
   "error_shopping_no_categories": "You haven't defined any categories yet. Every item must be assigned to a category, so you cannot add items at this point.",
   "error_task_not_found": "Task not found",

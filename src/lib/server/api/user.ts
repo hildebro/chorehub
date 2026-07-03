@@ -53,6 +53,14 @@ const usersRouter = new Hono<AppEnv>()
 
     return c.json(await findHouseholdUsers(user.householdId));
   })
+  .get('/export', async (c) => {
+    const { webStream, filename } = generateDatabaseBackup();
+
+    c.header('Content-Type', 'application/gzip');
+    c.header('Content-Disposition', `attachment; filename="${filename}"`);
+
+    return c.body(webStream);
+  })
   .get('/:id', async (c) => {
     const userId = c.req.param('id');
     const user = await findUser(userId);
@@ -125,14 +133,6 @@ const usersRouter = new Hono<AppEnv>()
     }
 
     return c.json({ success: true });
-  })
-  .get('/export', async (c) => {
-    const { webStream, filename } = generateDatabaseBackup();
-
-    c.header('Content-Type', 'application/gzip');
-    c.header('Content-Disposition', `attachment; filename="${filename}"`);
-
-    return c.body(webStream);
   })
   .post('/update/me', zValidator('json', updateMeSchema), async (c) => {
     const updateData = c.req.valid('json');

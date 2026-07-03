@@ -45,6 +45,7 @@
   "demo_mode": "Demo Modus ausprobieren",
   "error_category_not_found": "Kategorie nicht gefunden",
   "error_balance_entry_not_found": "Eintrag nicht gefunden",
+  "error_database_export": "Es gab einen Server Fehler, während der Datenbank Export erstellt wurde.",
   "error_shopping_no_active_categories": "Es liegen momentan keine aktiven Artikel vor.",
   "error_shopping_no_categories": "Du hast noch keine Kategorien angelegt. Jeder Artikel muss einer Kategorie zugehörig sein, also kannst du zu diesem Zeitpunkt keine Artikel hinzufügen.",
   "error_task_not_found": "Aufgabe nicht gefunden",

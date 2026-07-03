@@ -5,6 +5,7 @@
   import ApiForm from '$lib/components/ApiForm.svelte';
   import ApiFormItem from '$lib/components/ApiFormItem.svelte';
   import * as m from '$lib/paraglide/messages.js';
+  import { addToast } from '$lib/stores/toast';
 
   let { data } = $props();
 
@@ -20,16 +21,28 @@
 
   async function exportDatabase() {
     const res = await getApiClient().api.users.export.$get();
+    if (!res.ok) {
+      addToast({ title: m.form_error(), message: m.error_database_export(), type: 'error' });
 
-    // Trigger the browser download using a streamlined anchor trick
+      return;
+    }
+
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
-    a.href = URL.createObjectURL(await res.blob());
+    a.href = url;
 
-    // Extract the filename from the header, falling back to a default if empty
-    a.download = res.headers.get('content-disposition')?.split('filename=')[1]?.replace(/["']/g, '')
-      || 'database-dump.tar.gz';
+    const disposition = res.headers.get('content-disposition');
+    let downloadName = 'database-dump.tar.gz';
+    if (disposition && disposition.includes('filename=')) {
+      downloadName = disposition.split('filename=')[1]?.replace(/["']/g, '');
+    }
 
+    a.download = downloadName;
     a.click();
+
+    // Clean up the object URL to prevent memory leaks
+    URL.revokeObjectURL(url);
   }
 
   async function onSuccess() {

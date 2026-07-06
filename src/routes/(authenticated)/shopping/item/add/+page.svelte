@@ -1,6 +1,6 @@
 <script lang="ts">
   import levenshteinPkg from 'fast-levenshtein';
-  import { CircleAlert, CirclePlus, CircleQuestionMark, Trash2 } from 'lucide-svelte';
+  import { CircleAlert, CirclePlus, Trash2 } from 'lucide-svelte';
   import { tick } from 'svelte';
   import { goto } from '$app/navigation';
   import { resolve } from '$app/paths';
@@ -228,19 +228,9 @@
     }
   }
 
-  let helpDialog: HTMLDialogElement;
-
   let correctionDialog: HTMLDialogElement;
   let correctionItemIndex: number | undefined = $state();
 </script>
-
-<dialog bind:this={helpDialog}>
-  <h3>{m.shopping_add_items()}</h3>
-  <p>{m.shopping_add_items_help()}</p>
-  <form method="dialog">
-    <button>{m.generic_close()}</button>
-  </form>
-</dialog>
 
 <dialog bind:this={correctionDialog}>
   <p>
@@ -257,10 +247,6 @@
 <article>
   <div class="header">
     <h4>{m.shopping_add_items()}</h4>
-    <button class="icon-button secondary" onclick={() => helpDialog.showModal()}>
-      <CircleQuestionMark />
-      {m.generic_help()}
-    </button>
   </div>
   <ApiForm {submitAction} submitButtonHidden {onSuccess}>
     <table class="items-table">

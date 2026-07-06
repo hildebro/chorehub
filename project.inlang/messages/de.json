@@ -80,7 +80,7 @@
   "header_user": "Eingeloggt als {name}",
   "header_theme": "Farbschema",
   "initiate_household_name": "Name des Haushalts",
-  "initiate_info": "Willkommen in Laneh. Um die App zu nutzen, muss ein Haushalt und ein Konto zum Einloggen angelegt werden. Das Konto wird als Admin fungieren und automatisch dem Haushalt zugewiesen. Du kannst später weitere Haushalte für andere Nutzer:innen anlegen.",
+  "initiate_info": "Willkommen in Laneh.\n\nBitte lege eine:n Nutzer:in als Serveradmin und einen Haushalt an.\n\nDer Admin wird automatisch teil des Haushalts sein. Du kannst später weitere Nutzer:innen und Haushalte hinzufügen.\n\nAlternativ kannst du auch einen Datenbankdump von einer früheren Serverinstanz importieren.",
   "initiate_submit": "Server initiieren",
   "initiate_username": "Benutzername",
   "login_headline": "Willkommen in Laneh",

@@ -28,9 +28,6 @@
 
 <main>
   <article>
-    { m.initiate_info() }
-  </article>
-  <article>
     <ApiForm submitAction={initiate} submitButtonText={m.initiate_submit()} onSuccess={resolve('/')}>
       <ApiFormItem
         label={m.initiate_household_name()}

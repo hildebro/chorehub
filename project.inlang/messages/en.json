@@ -80,7 +80,7 @@
   "header_theme": "Theme",
   "header_user": "Logged in as {name}",
   "initiate_household_name": "Name of household",
-  "initiate_info": "Welcome to Laneh. In order to start using the app, you need to set up a household and a user account. The user will be an admin and automatically be part of the household. You can create more households for other users later.",
+  "initiate_info": "Welcome to Laneh.\n\nPlease create a server admin user and a household.\n\nThe user will automatically be part of the household. You can add more users and households later.\n\nAlternatively, you can import a database dump from a previous server instance.",
   "initiate_submit": "Initiate server",
   "initiate_username": "Username",
   "login_headline": "Welcome to Laneh",

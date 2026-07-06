@@ -14,6 +14,7 @@ export const load = async ({ url }) => {
     }
   }
 
-  // This will be overridden in the (authenticated) area with the actual user.
-  return { logged_in_user: null };
+  // logged_in_user will be overridden in the (authenticated) area with the actual user.
+  // help_text can be overridden in any page, if there is something to explain.
+  return { logged_in_user: null, help_text: null };
 };

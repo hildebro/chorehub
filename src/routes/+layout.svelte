@@ -5,6 +5,7 @@
   import { Capacitor } from '@capacitor/core';
   import { StatusBar } from '@capacitor/status-bar';
   import { onMount } from 'svelte';
+  import HelpAction from './HelpAction.svelte';
   import LanguageAction from './LanguageAction.svelte';
   import MenuAction from './MenuAction.svelte';
   import ThemeAction from './ThemeAction.svelte';
@@ -80,6 +81,7 @@
         { m.header_head() }
       </div>
       <div class="header-action-container">
+        <HelpAction help_text={page.data.help_text} />
         <ThemeAction />
         <LanguageAction />
         <MenuAction logged_in_user={page.data.logged_in_user} />

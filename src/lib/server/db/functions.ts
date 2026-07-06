@@ -21,6 +21,7 @@ import {
 import type { AnyPgColumn } from 'drizzle-orm/pg-core';
 import { lte } from 'drizzle-orm/sql/expressions/conditions';
 import { getTx } from '$lib/context';
+import type { UserPayload } from '$lib/server/api/user';
 import { hashPassword, verifyPassword } from '$lib/server/db/crypto';
 import * as table from '$lib/server/db/schema';
 import {
@@ -35,7 +36,6 @@ import {
   type User
 } from '$lib/server/db/schema';
 import { Assignment, TaskType, type Weekday } from '$lib/utils/taskHelper';
-import type { UserPayload } from '$lib/server/api/user';
 
 // ------- HOUSEHOLD -------
 export const addHousehold = async (name: string): Promise<string> => {
@@ -261,6 +261,16 @@ export const updateDefaultDistribution = async (
       .execute();
   }
 };
+
+export const dismissHelpDisclaimer = async (userId: string) => {
+  const db = getTx();
+
+  await db
+    .update(table.user)
+    .set({ helpDisclaimerDismissed: true })
+    .where(eq(table.user.id, userId))
+    .execute();
+}
 
 // ------- SESSION -------
 export const createSession = async (userId: string) => {

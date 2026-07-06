@@ -7,6 +7,7 @@ import {
   addUser,
   assertMatchingHousehold,
   assertPermissibleAdminUpdate,
+  dismissHelpDisclaimer,
   findHouseholdUsers,
   findUser,
   isUsernameTaken,
@@ -165,6 +166,13 @@ const usersRouter = new Hono<AppEnv>()
       return c.json({ success: true });
     }
   )
+  .post('/dismissHelpDisclaimer', async (c) => {
+    const loggedInUser = c.get('loggedInUser');
+
+    await dismissHelpDisclaimer(loggedInUser.id);
+
+    return c.json({ success: true });
+  })
   .post('/logout', async (c) => {
     await logout(c);
 

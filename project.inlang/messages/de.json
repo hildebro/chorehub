@@ -79,6 +79,8 @@
   "header_settings": "Einstellungen",
   "header_user": "Eingeloggt als {name}",
   "header_theme": "Farbschema",
+  "initiate_disclaimer": "Der 'Hilfe' Knopf in der Kopfzeile ist adaptiv! Die Informationen sind immer davon abhängig, auf welcher Seite von Laneh du dich gerade befindest.\n\nBeachte allerdings, dass der Knopf auf einige Seiten deaktiviert ist, wenn es dort (noch) keine Informationen gibt.",
+  "initiate_disclaimer_dismiss": "Hinweis nicht mehr anzeigen",
   "initiate_household_name": "Name des Haushalts",
   "initiate_info": "Willkommen in Laneh.\n\nBitte lege eine:n Nutzer:in als Serveradmin und einen Haushalt an.\n\nDer Admin wird automatisch teil des Haushalts sein. Du kannst später weitere Nutzer:innen und Haushalte hinzufügen.\n\nAlternativ kannst du auch einen Datenbankdump von einer früheren Serverinstanz importieren.",
   "initiate_submit": "Server initiieren",

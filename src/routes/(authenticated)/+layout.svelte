@@ -1,7 +1,11 @@
 <script lang="ts">
   import { LoaderCircle } from 'lucide-svelte';
   import Navigation from './Navigation.svelte';
-  import { invalidateAll } from '$app/navigation';
+  import { goto, invalidateAll } from '$app/navigation';
+  import { resolve } from '$app/paths';
+  import { getApiClient } from '$lib/apiClient';
+  import ApiForm from '$lib/components/ApiForm.svelte';
+  import * as m from '$lib/paraglide/messages.js';
 
   let { children, data } = $props();
 
@@ -72,6 +76,15 @@
       shouldRefresh = false;
     }
   };
+
+  async function submitAction() {
+    const client = getApiClient();
+    return client.api.users.dismissHelpDisclaimer.$post();
+  }
+
+  async function onSuccess() {
+    await goto(resolve('/shopping'));
+  }
 </script>
 
 <main
@@ -96,6 +109,17 @@
     </div>
   {/if}
 
+  {#if !data.logged_in_user.helpDisclaimerDismissed}
+    <article class="warning help-disclaimer">
+      {m.initiate_disclaimer()}
+      <footer>
+        <ApiForm {submitAction} {onSuccess} submitButtonText={m.initiate_disclaimer_dismiss()}>
+          <span></span>
+        </ApiForm>
+      </footer>
+    </article>
+  {/if}
+
   {@render children()}
 </main>
 
@@ -106,16 +130,20 @@
 </footer>
 
 <style>
+    .help-disclaimer {
+        white-space: pre-line;
+    }
+
     footer {
         position: sticky;
         bottom: 0;
         z-index: 100;
-        background-color: var(--bg-app);
         border-top: var(--default-border-width) solid var(--border-main);
         padding-bottom: env(safe-area-inset-bottom, 0px);
     }
 
     .footer-inner {
+        background-color: var(--bg-app);
         width: 100%;
         max-width: var(--max-width);
         margin: 0 auto;

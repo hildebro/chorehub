@@ -162,7 +162,8 @@ const publicRouter = new Hono()
       id: user.id,
       username: user.username,
       householdAdmin: user.householdAdmin,
-      serverAdmin: user.serverAdmin
+      serverAdmin: user.serverAdmin,
+      helpDisclaimerDismissed: user.helpDisclaimerDismissed
     });
   })
   .get('/marco', async (c) => {

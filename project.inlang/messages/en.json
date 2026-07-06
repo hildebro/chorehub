@@ -79,6 +79,8 @@
   "header_settings": "Settings",
   "header_theme": "Theme",
   "header_user": "Logged in as {name}",
+  "initiate_disclaimer": "The 'Help' button in the app's header is adaptive! Click it on any page and you will get information for that specific page.\n\nNote though that the button is disabled in some pages where no information is available (yet).",
+  "initiate_disclaimer_dismiss": "Dismiss disclaimer",
   "initiate_household_name": "Name of household",
   "initiate_info": "Welcome to Laneh.\n\nPlease create a server admin user and a household.\n\nThe user will automatically be part of the household. You can add more users and households later.\n\nAlternatively, you can import a database dump from a previous server instance.",
   "initiate_submit": "Initiate server",

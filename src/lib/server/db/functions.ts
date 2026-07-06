@@ -1012,8 +1012,9 @@ export const findDueTasks = async (): Promise<TaskWithRelation[]> => {
     with: {
       dueUser: {},
       completions: {}
-    }
-  });
+    },
+    orderBy: asc(table.task.dueDate)
+  })
 };
 
 export const findCompletedTasks = async (): Promise<TaskWithRelation[]> => {
@@ -1033,7 +1034,8 @@ export const findCompletedTasks = async (): Promise<TaskWithRelation[]> => {
     with: {
       dueUser: {},
       completions: {}
-    }
+    },
+    orderBy: asc(table.task.dueDate)
   });
 };
 

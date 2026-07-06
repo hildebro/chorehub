@@ -246,6 +246,13 @@
       "when": 1781781703346,
       "tag": "20260618112143_volatile_the_anarchist",
       "breakpoints": true
+    },
+    {
+      "idx": 35,
+      "version": "7",
+      "when": 1783343695124,
+      "tag": "20260706131455_striped_grim_reaper",
+      "breakpoints": true
     }
   ]
 }

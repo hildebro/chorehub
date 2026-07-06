@@ -1,3 +1,21 @@
+# [2.14.0](https://github.com/hildebro/laneh/compare/v2.13.4...v2.14.0) (2026-07-06)
+
+
+### Bug Fixes
+
+* task due date ordering ([6b307d2](https://github.com/hildebro/laneh/commit/6b307d262d31e394ea2157200c779245bbb4b12a))
+* use adminDb for import ([34d2513](https://github.com/hildebro/laneh/commit/34d2513f63914b6ce2ee72ea9ac607523c06b6a0))
+
+
+### Features
+
+* add disclaimer for help section ([d642520](https://github.com/hildebro/laneh/commit/d64252079fd307ec31fbc4536867433c9339701a))
+* add help-disclaimer setting for users ([8e863e8](https://github.com/hildebro/laneh/commit/8e863e885bfd99fdc7a821eeb5cb03e18cbada40))
+* generic help button in header ([100ce69](https://github.com/hildebro/laneh/commit/100ce692a4abce740e09dfbc7b2af1c3a4fbf912))
+* move /initiate text into helper ([16f2804](https://github.com/hildebro/laneh/commit/16f280471ab615f0cb29e8a88b32375263c9f7fb))
+* move add-items helper into generic component ([24b743c](https://github.com/hildebro/laneh/commit/24b743ce15be3be81b92e5ce52656fa802cddc92))
+* simplify dashboard ([0dfa6f9](https://github.com/hildebro/laneh/commit/0dfa6f9b41c2da3bfcdd8e5e475f02ce33e1c965))
+
 ## [2.13.4](https://github.com/hildebro/laneh/compare/v2.13.3...v2.13.4) (2026-07-03)
 
 

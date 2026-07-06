@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { resolve } from '$app/paths';
   import * as m from '$lib/paraglide/messages.js';
   import { priceFormatter, shortDateFormatter } from '$lib/utils/formatter';
 
@@ -22,18 +21,11 @@
       { m.dashboard_shopping_last_purchase({ date: lastPurchaseDate }) }
     </p>
   {/if}
-  <footer>
-    <a role="button" href={resolve('/shopping/item/add')}>{m.shopping_add_items()}</a>
-    <a role="button" href={resolve('/shopping/purchase')}>{m.shopping_start_purchase()}</a>
-  </footer>
 </article>
 
 <article>
   <h2>{ m.navigation_schedule() }</h2>
   <p>{ m.dashboard_schedule_count({ count: data.due_task_count }) }</p>
-  <footer>
-    <a role="button" href={resolve('/tasks')}>{ m.dashboard_schedule_go_to() }</a>
-  </footer>
 </article>
 
 <article>
@@ -57,7 +49,4 @@
       </div>
     {/each}
   {/if}
-  <footer>
-    <a role="button" href={resolve('/balance')}>{ m.dashboard_balance_go_to() }</a>
-  </footer>
 </article>

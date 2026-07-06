@@ -7,8 +7,8 @@ import zlib from 'node:zlib';
 import tar from 'tar-stream';
 import { dev } from '$app/environment';
 import { SESSION_COOKIE } from '$lib';
-import { getTx } from '$lib/context';
 import { getLoggedInUser } from '$lib/server/auth';
+import { adminDb } from '$lib/server/db';
 import { addHousehold, addUser, createSession, findAllUsers, findAndVerifyUser } from '$lib/server/db/functions';
 import { z } from '$lib/zod';
 
@@ -111,7 +111,7 @@ const publicRouter = new Hono()
       Readable.from(buffer).pipe(zlib.createGunzip()).pipe(extract);
     });
 
-    const db = getTx();
+    const db = adminDb;
     try {
       // Temporarily disable foreign key constraints and triggers for the import
       await db.execute(sql`SET session_replication_role = replica;`);

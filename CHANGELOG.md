@@ -1,3 +1,12 @@
+# [2.15.0](https://github.com/hildebro/laneh/compare/v2.14.0...v2.15.0) (2026-07-07)
+
+
+### Features
+
+* move help disclaimer into header ([119030e](https://github.com/hildebro/laneh/commit/119030e2f7f4f317ce33f988ca556a3070ea4b63))
+* split off completed tasks from upcoming tasks ([10f694d](https://github.com/hildebro/laneh/commit/10f694de3f19a1fc25d5e7ebcc4f0cc5a2ced727))
+* upcoming task count based on loggedInUser ([03dbe0c](https://github.com/hildebro/laneh/commit/03dbe0c0ae222c2afd6baff4e090ac32ed4be9b2))
+
 # [2.14.0](https://github.com/hildebro/laneh/compare/v2.13.4...v2.14.0) (2026-07-06)
 
 

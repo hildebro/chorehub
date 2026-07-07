@@ -1218,20 +1218,14 @@ async function findNextDueUserId(taskId: string): Promise<string | null> {
   return completionsPerUser[0].id;
 }
 
-export const countDueTasks = async () => {
+export const countDueTasks = async (userId: string) => {
   const db = getTx();
 
   const tasks = await db.query.task.findMany({
-    where: or(
-      and(
-        eq(table.task.type, TaskType.Single),
-        eq(table.task.done, false),
-        lte(table.task.dueDate, formatDateToYYYYMMDD(new Date()))
-      ),
-      and(
-        eq(table.task.type, TaskType.Repeating),
-        lte(table.task.dueDate, formatDateToYYYYMMDD(new Date()))
-      )
+    where: and(
+      eq(table.task.done, false),
+      eq(table.task.dueUserId, userId),
+      lte(table.task.dueDate, formatDateToYYYYMMDD(new Date()))
     )
   }).execute();
 

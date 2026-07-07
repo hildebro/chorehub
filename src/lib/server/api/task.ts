@@ -1,5 +1,6 @@
 import { zValidator } from '@hono/zod-validator';
 import { Hono } from 'hono';
+import type { AppEnv } from '$lib/server/api/types';
 import {
   addTask,
   countDueTasks,
@@ -67,7 +68,7 @@ const taskSchema = z.object({
     )
 ;
 
-const tasksRouter = new Hono()
+const tasksRouter = new Hono<AppEnv>()
   .get('/', async (c) => {
     return c.json({
       dueTasks: await findDueTasks(),
@@ -76,7 +77,9 @@ const tasksRouter = new Hono()
     });
   })
   .get('/dueTaskCount', async (c) => {
-    return c.json(await countDueTasks());
+    const loggedInUser = c.get('loggedInUser');
+
+    return c.json(await countDueTasks(loggedInUser.id));
   })
   .post(
     '/done',

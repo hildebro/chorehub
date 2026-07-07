@@ -113,6 +113,7 @@
   "schedule_task_repeating": "Repeating task",
   "schedule_task_update": "Edit task",
   "schedule_upcoming_at": "Due at",
+  "schedule_upcoming_tasks": "Upcoming tasks",
   "schedule_weekday": "Weekday",
   "schedule_weekday_nonoptional": "Please select a weekday",
   "schedule_weekday_fri": "Friday",

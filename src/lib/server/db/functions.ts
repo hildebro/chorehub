@@ -223,7 +223,7 @@ export const assertPermissibleAdminUpdate = async (user: UserPayload) => {
       .where(
         and(
           eq(table.user.householdId, user.householdId),
-          eq(table.user.householdAdmin, true),
+          eq(table.user.householdAdmin, true)
         )
       )
       .execute();
@@ -235,7 +235,7 @@ export const assertPermissibleAdminUpdate = async (user: UserPayload) => {
   }
 
   return true;
-}
+};
 
 export const assertMatchingHousehold = async (userIds: string[]): Promise<boolean> => {
   const db = getTx();
@@ -270,7 +270,7 @@ export const dismissHelpDisclaimer = async (userId: string) => {
     .set({ helpDisclaimerDismissed: true })
     .where(eq(table.user.id, userId))
     .execute();
-}
+};
 
 // ------- SESSION -------
 export const createSession = async (userId: string) => {
@@ -1009,14 +1009,11 @@ export const findDueTasks = async (): Promise<TaskWithRelation[]> => {
   const db = getTx();
 
   return db.query.task.findMany({
-    where: or(
-      and(
-        eq(table.task.type, TaskType.Single),
-        eq(table.task.done, false)
-      ),
-      and(
-        eq(table.task.type, TaskType.Repeating),
-        lte(table.task.dueDate, formatDateToYYYYMMDD(new Date()))
+    where: and(
+      eq(table.task.done, false),
+      or(
+        lte(table.task.dueDate, formatDateToYYYYMMDD(new Date())),
+        isNull(table.task.dueDate)
       )
     ),
     with: {
@@ -1024,23 +1021,27 @@ export const findDueTasks = async (): Promise<TaskWithRelation[]> => {
       completions: {}
     },
     orderBy: asc(table.task.dueDate)
-  })
+  });
+};
+
+export const findUpcomingTasks = async (): Promise<TaskWithRelation[]> => {
+  const db = getTx();
+
+  return db.query.task.findMany({
+    where: gt(table.task.dueDate, formatDateToYYYYMMDD(new Date())),
+    with: {
+      dueUser: {},
+      completions: {}
+    },
+    orderBy: asc(table.task.dueDate)
+  });
 };
 
 export const findCompletedTasks = async (): Promise<TaskWithRelation[]> => {
   const db = getTx();
 
   return db.query.task.findMany({
-    where: or(
-      and(
-        eq(table.task.type, TaskType.Single),
-        eq(table.task.done, true)
-      ),
-      and(
-        eq(table.task.type, TaskType.Repeating),
-        gt(table.task.dueDate, formatDateToYYYYMMDD(new Date()))
-      )
-    ),
+    where: eq(table.task.done, true),
     with: {
       dueUser: {},
       completions: {}

@@ -6,6 +6,7 @@ import {
   findCompletedTasks,
   findDueTasks,
   findTask,
+  findUpcomingTasks,
   markTaskAsDone,
   updateTask
 } from '$lib/server/db/functions';
@@ -68,7 +69,11 @@ const taskSchema = z.object({
 
 const tasksRouter = new Hono()
   .get('/', async (c) => {
-    return c.json({ dueTasks: await findDueTasks(), completedTasks: await findCompletedTasks() });
+    return c.json({
+      dueTasks: await findDueTasks(),
+      upcomingTasks: await findUpcomingTasks(),
+      completedTasks: await findCompletedTasks()
+    });
   })
   .get('/dueTaskCount', async (c) => {
     return c.json(await countDueTasks());

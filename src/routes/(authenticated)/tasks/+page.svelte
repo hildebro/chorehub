@@ -110,17 +110,10 @@
 {#each data.dueTasks as task (task.id)}
   <article class={getDueCardPreset(task)}>
     <div class="action-bar">
-      {#if task.completions !== undefined}
-        <a class="icon-button" role="button" href={resolve('/(authenticated)/tasks/[task]', {task: task.id})}>
-          <Pencil size={16} />
-          { m.generic_edit() }
-        </a>
-      {:else}
-        <a class="icon-button" role="button" href={resolve('/(authenticated)/tasks/[task]', {task: task.id})}>
-          <Pencil size={16} />
-          { m.generic_edit() }
-        </a>
-      {/if}
+      <a class="icon-button" role="button" href={resolve('/(authenticated)/tasks/[task]', {task: task.id})}>
+        <Pencil size={16} />
+        { m.generic_edit() }
+      </a>
       <button class="icon-button" onclick={() => openModalForTask(task)}>
         <Check size={16} />
         { m.schedule_done() }
@@ -137,22 +130,15 @@
   </article>
 {/each}
 
-{#if data.completedTasks.length > 0}
-  <h2 class="headline">{ m.schedule_completed_tasks() }</h2>
-  {#each data.completedTasks as task (task.id)}
+{#if data.upcomingTasks.length > 0}
+  <h2 class="headline">{ m.schedule_upcoming_tasks() }</h2>
+  {#each data.upcomingTasks as task (task.id)}
     <article>
       <div class="action-bar">
-        {#if task.completions !== undefined}
-          <a class="icon-button" role="button" href={resolve('/(authenticated)/tasks/[task]', {task: task.id})}>
-            <Pencil size={16} />
-            { m.generic_edit() }
-          </a>
-        {:else}
-          <a class="icon-button" role="button" href={resolve('/(authenticated)/tasks/[task]', {task: task.id})}>
-            <Pencil size={16} />
-            { m.generic_edit() }
-          </a>
-        {/if}
+        <a class="icon-button" role="button" href={resolve('/(authenticated)/tasks/[task]', {task: task.id})}>
+          <Pencil size={16} />
+          { m.generic_edit() }
+        </a>
       </div>
       <h3>{task.name}</h3>
       <hr />
@@ -160,6 +146,15 @@
         <div>{ m.schedule_assignee() }: {task.dueUser?.username}</div>
         <p><strong>{ m.schedule_upcoming_at() }:</strong> {formatDate(task.dueDate)}</p>
       </div>
+    </article>
+  {/each}
+{/if}
+
+{#if data.completedTasks.length > 0}
+  <h2 class="headline">{ m.schedule_completed_tasks() }</h2>
+  {#each data.completedTasks as task (task.id)}
+    <article>
+      <h3>{task.name}</h3>
     </article>
   {/each}
 {/if}

@@ -62,6 +62,7 @@
   "form_invalid_number_too_small": "Value must be at least {minimum}",
   "form_success": "Success!",
   "generic_amount": "Amount",
+  "generic_attention": "Attention",
   "generic_cancel": "Cancel",
   "generic_close": "Close",
   "generic_confirm": "Confirm",

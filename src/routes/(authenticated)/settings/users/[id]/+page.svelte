@@ -4,6 +4,7 @@
   import ApiForm from '$lib/components/ApiForm.svelte';
   import ApiFormItem from '$lib/components/ApiFormItem.svelte';
   import * as m from '$lib/paraglide/messages.js';
+  import { Admin } from '$lib/utils/userHelper';
 
   let { data } = $props();
 
@@ -11,14 +12,24 @@
   let householdId = $derived(data.user?.householdId || '');
   let username = $derived(data.user?.username || '');
   let password = $derived(undefined);
-  let serverAdmin = $derived(data.user?.serverAdmin || false);
-  let householdAdmin = $derived(serverAdmin === true ? true : (data.user?.householdAdmin || false));
+  let admin = $derived(data.user?.admin ?? Admin.None);
 
   async function saveUser() {
     const client = getApiClient();
     return client.api.users.update.$post({
-      json: { id: id ?? null, householdId, username, password, serverAdmin, householdAdmin }
+      json: { id: id ?? null, householdId, username, password, admin }
     });
+  }
+
+  function translateAdmin(admin: Admin) {
+    switch (admin) {
+      case Admin.Server:
+        return m.settings_users_admin_server();
+      case Admin.Household:
+        return m.settings_users_admin_household();
+      case Admin.None:
+        return m.settings_users_admin_none();
+    }
   }
 </script>
 
@@ -57,19 +68,15 @@
         bind:value={password}
       />
       <ApiFormItem
-        label={m.settings_server_admin()}
-        name="serverAdmin"
-        type="checkbox"
-        bind:value={serverAdmin}
-        disabled={!data.logged_in_user.serverAdmin}
-      />
-      <ApiFormItem
-        label={m.settings_household_admin()}
-        name="householdAdmin"
-        type="checkbox"
-        bind:value={householdAdmin}
-        disabled={!data.logged_in_user.householdAdmin || serverAdmin}
-      />
+        label={m.settings_users_admin()}
+        name="admin"
+        type="select"
+        bind:value={admin}
+      >
+        {#each Object.values(Admin) as adminOptions (adminOptions)}
+          <option value={adminOptions}>{translateAdmin(adminOptions)}</option>
+        {/each}
+      </ApiFormItem>
     </ApiForm>
   </div>
 </article>

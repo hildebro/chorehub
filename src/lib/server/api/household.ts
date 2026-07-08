@@ -3,6 +3,7 @@ import { Hono } from 'hono';
 import type { AppEnv } from '$lib/server/api/types';
 import { addHousehold, findAllHouseholds, findHousehold, updateHousehold } from '$lib/server/db/functions';
 import { z } from '$lib/zod';
+import { Admin } from '$lib/utils/userHelper';
 
 const createHouseholdSchema = z.object({
   name: z.string().nonempty()
@@ -15,11 +16,11 @@ const updateHouseholdSchema = createHouseholdSchema.extend({
 const householdRouter = new Hono<AppEnv>()
   .get('/', async (c) => {
     const loggedInUser = c.get('loggedInUser');
-    if (loggedInUser.serverAdmin) {
+    if (loggedInUser.admin === Admin.Server) {
       return c.json(await findAllHouseholds());
     }
 
-    if (loggedInUser.householdAdmin) {
+    if (loggedInUser.admin === Admin.Household) {
       const household = await findHousehold(loggedInUser.householdId);
       if (!household) {
         return c.json({ error: 'Logged-in user has no valid household' }, 500);
@@ -34,7 +35,10 @@ const householdRouter = new Hono<AppEnv>()
     const loggedInUser = c.get('loggedInUser');
     const householdId = c.req.param('id');
 
-    if (!loggedInUser.serverAdmin && loggedInUser.householdId !== householdId) {
+    if (
+      loggedInUser.admin === Admin.None
+      || (loggedInUser.admin === Admin.Household && loggedInUser.householdId !== householdId)
+    ) {
       return c.json({ error: 'Unauthorized' }, 403);
     }
 
@@ -50,7 +54,7 @@ const householdRouter = new Hono<AppEnv>()
     zValidator('json', createHouseholdSchema),
     async (c) => {
       const loggedInUser = c.get('loggedInUser');
-      if (!loggedInUser.serverAdmin) {
+      if (loggedInUser.admin !== Admin.Server) {
         return c.json({ error: 'Unauthorized' }, 403);
       }
 
@@ -64,7 +68,7 @@ const householdRouter = new Hono<AppEnv>()
     zValidator('json', updateHouseholdSchema),
     async (c) => {
       const loggedInUser = c.get('loggedInUser');
-      if (!loggedInUser.serverAdmin) {
+      if (loggedInUser.admin !== Admin.Server) {
         return c.json({ error: 'Unauthorized' }, 403);
       }
 

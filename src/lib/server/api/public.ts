@@ -10,6 +10,7 @@ import { SESSION_COOKIE } from '$lib';
 import { getLoggedInUser } from '$lib/server/auth';
 import { adminDb } from '$lib/server/db';
 import { addHousehold, addUser, createSession, findAllUsers, findAndVerifyUser } from '$lib/server/db/functions';
+import { Admin } from '$lib/utils/userHelper';
 import { z } from '$lib/zod';
 
 const initiateSchema = z.object({
@@ -55,7 +56,7 @@ const publicRouter = new Hono()
     const initiateData = c.req.valid('json');
 
     const householdId = await addHousehold(initiateData.householdName);
-    const userId = await addUser(initiateData.username, initiateData.password, householdId, true, true);
+    const userId = await addUser(initiateData.username, initiateData.password, householdId, Admin.Server);
 
     const session = await createSession(userId);
     setCookie(c, SESSION_COOKIE, session.id, {
@@ -161,8 +162,7 @@ const publicRouter = new Hono()
     return c.json({
       id: user.id,
       username: user.username,
-      householdAdmin: user.householdAdmin,
-      serverAdmin: user.serverAdmin,
+      admin: user.admin,
       helpDisclaimerDismissed: user.helpDisclaimerDismissed
     });
   })

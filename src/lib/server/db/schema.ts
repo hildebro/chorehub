@@ -16,6 +16,7 @@ import {
   unique
 } from 'drizzle-orm/pg-core';
 import { Assignment, TaskType, Weekday } from '$lib/utils/taskHelper';
+import { Admin } from '$lib/utils/userHelper';
 
 // ============================================================================
 // HOUSEHOLD
@@ -40,6 +41,7 @@ export const householdRelations = relations(household, ({ many }) => ({
 // ============================================================================
 // USER & SESSION
 // ============================================================================
+export const adminEnum = pgEnum('admin', Admin);
 
 export const user = pgTable('user', {
   id: text().primaryKey(),
@@ -49,8 +51,7 @@ export const user = pgTable('user', {
     .default(sql`current_setting('app.current_household_id')`),
   username: text().notNull(),
   password: text().notNull(),
-  householdAdmin: boolean().notNull().default(false),
-  serverAdmin: boolean().notNull().default(false),
+  admin: adminEnum().notNull().default(Admin.None),
   defaultDistribution: doublePrecision(),
   helpDisclaimerDismissed: boolean().notNull().default(false),
 }, (table) => [

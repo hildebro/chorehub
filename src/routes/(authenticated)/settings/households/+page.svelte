@@ -1,7 +1,8 @@
 <script lang="ts">
-  import { CheckIcon, Pencil, XIcon } from 'lucide-svelte';
+  import { Pencil } from 'lucide-svelte';
   import { resolve } from '$app/paths';
   import * as m from '$lib/paraglide/messages.js';
+  import { Admin } from '$lib/utils/userHelper';
 
   let { data } = $props();
 </script>
@@ -31,17 +32,12 @@
           <tr>
             <td>{user.username}</td>
             <td>
-              {m.settings_users_admin_server()}
-              {#if user.serverAdmin}
-                <CheckIcon />
+              {#if user.admin === Admin.Server}
+                {m.settings_users_admin_server()}
+              {:else if user.admin === Admin.Household}
+                {m.settings_users_admin_household()}
               {:else}
-                <XIcon />
-              {/if}
-              {m.settings_users_admin_household()}
-              {#if user.householdAdmin}
-                <CheckIcon />
-              {:else}
-                <XIcon />
+                {m.settings_users_admin_none()}
               {/if}
             </td>
             <td>

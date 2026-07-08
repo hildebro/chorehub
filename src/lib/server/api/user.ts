@@ -2,7 +2,7 @@ import { zValidator } from '@hono/zod-validator';
 import { Hono } from 'hono';
 import type { AppEnv } from '$lib/server/api/types';
 import { logout } from '$lib/server/auth';
-import { generateDatabaseBackup } from '$lib/server/db/export'; // <-- Import your new helper
+import { generateDatabaseBackup } from '$lib/server/db/export';
 import {
   addUser,
   assertMatchingHousehold,
@@ -14,6 +14,7 @@ import {
   updateDefaultDistribution,
   updateUser
 } from '$lib/server/db/functions';
+import { Admin } from '$lib/utils/userHelper';
 import { z } from '$lib/zod';
 
 const userSchema = z.object({
@@ -21,8 +22,7 @@ const userSchema = z.object({
   householdId: z.string().nonempty(),
   username: z.string().trim().min(3).max(30),
   password: z.union([z.string().min(6).max(64), z.undefined()]),
-  serverAdmin: z.boolean().nonoptional(),
-  householdAdmin: z.boolean().nonoptional()
+  admin: z.enum(Admin),
 });
 export type UserPayload = z.infer<typeof userSchema>;
 
@@ -71,11 +71,11 @@ const usersRouter = new Hono<AppEnv>()
     }
 
     const loggedInUser = c.get('loggedInUser');
-    if (loggedInUser.serverAdmin) {
+    if (loggedInUser.admin === Admin.Server) {
       return c.json(user);
     }
 
-    if (loggedInUser.householdAdmin && loggedInUser.householdId === user.householdId) {
+    if (loggedInUser.admin === Admin.Household && loggedInUser.householdId === user.householdId) {
       return c.json(user);
     }
 
@@ -86,8 +86,8 @@ const usersRouter = new Hono<AppEnv>()
 
     const loggedInUser = c.get('loggedInUser');
     if (
-      !loggedInUser.serverAdmin
-      && (!loggedInUser.householdAdmin || loggedInUser.householdId !== user.householdId)
+      loggedInUser.admin !== Admin.Server
+      && (loggedInUser.admin !== Admin.Household || loggedInUser.householdId !== user.householdId)
     ) {
       return c.json({ error: 'Unauthorized' }, 403);
     }
@@ -117,7 +117,7 @@ const usersRouter = new Hono<AppEnv>()
     }
 
     if (user.id) {
-      await updateUser(user.id, user.username, user.password, user.serverAdmin, user.householdAdmin);
+      await updateUser(user.id, user.username, user.password, user.admin);
     } else {
       if (!user.password) {
         const error = new z.ZodError([
@@ -130,7 +130,7 @@ const usersRouter = new Hono<AppEnv>()
 
         return c.json({ success: false, error }, 400);
       }
-      await addUser(user.username, user.password as string, user.householdId, user.serverAdmin, user.householdAdmin);
+      await addUser(user.username, user.password as string, user.householdId, user.admin);
     }
 
     return c.json({ success: true });
@@ -140,7 +140,7 @@ const usersRouter = new Hono<AppEnv>()
 
     const user = c.get('loggedInUser');
 
-    await updateUser(user.id, updateData.username, updateData.password, user.serverAdmin, user.householdAdmin);
+    await updateUser(user.id, updateData.username, updateData.password, user.admin);
 
     return c.json({ success: true });
   })
@@ -151,7 +151,7 @@ const usersRouter = new Hono<AppEnv>()
       const distributions = c.req.valid('json');
 
       const loggedInUser = c.get('loggedInUser');
-      if (!loggedInUser.householdAdmin) {
+      if (loggedInUser.admin === Admin.None) {
         return c.json({ error: 'Unauthorized' }, 403);
       }
 

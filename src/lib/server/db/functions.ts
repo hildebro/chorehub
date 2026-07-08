@@ -36,6 +36,7 @@ import {
   type User
 } from '$lib/server/db/schema';
 import { Assignment, TaskType, type Weekday } from '$lib/utils/taskHelper';
+import { Admin } from '$lib/utils/userHelper';
 
 // ------- HOUSEHOLD -------
 export const addHousehold = async (name: string): Promise<string> => {
@@ -99,7 +100,7 @@ export const findHouseholdUsers = async (householdId: string): Promise<User[]> =
     .execute();
 };
 
-export const addUser = async (username: string, password: string, householdId: string, serverAdmin: boolean = false, householdAdmin: boolean = false): Promise<string> => {
+export const addUser = async (username: string, password: string, householdId: string, admin: Admin): Promise<string> => {
   const db = getTx();
 
   const userId = generateUUID();
@@ -108,15 +109,13 @@ export const addUser = async (username: string, password: string, householdId: s
     id: string,
     username: string,
     password: string,
-    householdAdmin: boolean,
-    serverAdmin: boolean,
+    admin: Admin,
     householdId?: string
   } = {
     id: userId,
     username,
     password: await hashPassword(password),
-    householdAdmin,
-    serverAdmin
+    admin
   };
   if (householdId) {
     insertValue = { ...insertValue, householdId };
@@ -126,13 +125,12 @@ export const addUser = async (username: string, password: string, householdId: s
   return userId;
 };
 
-export const updateUser = async (userId: string, username: string, password: string | undefined, serverAdmin: boolean, householdAdmin: boolean): Promise<void> => {
+export const updateUser = async (userId: string, username: string, password: string | undefined, admin: Admin): Promise<void> => {
   const db = getTx();
 
-  let update: { username: string, password?: string, serverAdmin: boolean, householdAdmin: boolean } = {
+  let update: { username: string, password?: string, admin: Admin } = {
     username,
-    serverAdmin,
-    householdAdmin
+    admin
   };
   if (password) {
     update = { ...update, password: await hashPassword(password) };
@@ -198,43 +196,42 @@ export const assertPermissibleAdminUpdate = async (user: UserPayload) => {
     return true;
   }
 
-  // No database checks needed, if the new state of the user is full admin.
-  if (user.serverAdmin && user.householdAdmin) {
+  // If the payload is a server admin, we know that the update is not creating a situation where no admins are present.
+  if (user.admin === Admin.Server) {
     return true;
   }
 
   const db = getTx();
 
-  if (!user.serverAdmin) {
-    const serverAdmins = await db.select()
-      .from(table.user)
-      .where(eq(table.user.serverAdmin, true))
-      .execute();
+  const serverAdmins = await db.select()
+    .from(table.user)
+    .where(eq(table.user.admin, Admin.Server))
+    .execute();
 
-    if (serverAdmins.length === 1 && serverAdmins.at(0)!.id === user.id) {
-      // Only one server admin exists and the payload would remove that last flag.
-      return false;
-    }
+  // Only one server admin exists and the payload would remove that last admin.
+  if (serverAdmins.length === 1 && serverAdmins.at(0)!.id === user.id) {
+    return false;
   }
 
-  if (!user.householdAdmin) {
-    const householdAdmins = await db.select()
-      .from(table.user)
-      .where(
-        and(
-          eq(table.user.householdId, user.householdId),
-          eq(table.user.householdAdmin, true)
-        )
+  // At this point we know that server admins are covered. So if the new user state is household admin,
+  // we know that the payload didn't remove the last household admin.
+  if (user.admin === Admin.Household) {
+    return true;
+  }
+
+  // Looking for admins that are in the same household as the user payload.
+  const householdAdmins = await db.select()
+    .from(table.user)
+    .where(
+      and(
+        eq(table.user.householdId, user.householdId),
+        inArray(table.user.admin, [Admin.Server, Admin.Household])
       )
-      .execute();
+    )
+    .execute();
 
-    if (householdAdmins.length === 1 && householdAdmins.at(0)!.id === user.id) {
-      // Only one admin for the household exists and the payload would remove that last flag.
-      return false;
-    }
-  }
-
-  return true;
+  // Permissible, if there is more than one admin or if that single existing admin is not the user of the payload.
+  return householdAdmins.length > 1 || householdAdmins.at(0)!.id !== user.id;
 };
 
 export const assertMatchingHousehold = async (userIds: string[]): Promise<boolean> => {

@@ -6,6 +6,7 @@
   import ApiFormItem from '$lib/components/ApiFormItem.svelte';
   import * as m from '$lib/paraglide/messages.js';
   import { addToast } from '$lib/stores/toast';
+  import { Admin } from '$lib/utils/userHelper';
 
   let { data } = $props();
 
@@ -80,7 +81,7 @@
     />
   </ApiForm>
 </article>
-{#if data.logged_in_user.householdAdmin}
+{#if data.logged_in_user.admin !== Admin.None}
   <article>
     <h2>{m.settings_admin()}</h2>
     <div class="action-row">
@@ -93,7 +94,7 @@
       <a role="button" href={resolve('/settings/users')}>
         {m.settings_users_distributions()}
       </a>
-      {#if data.logged_in_user.serverAdmin}
+      {#if data.logged_in_user.admin === Admin.Server}
         <button type="button" onclick={exportDatabase}>
           {m.settings_actions_export()}
         </button>

@@ -172,6 +172,7 @@
   "settings_users_edit": "Benutzer:in bearbeiten",
   "settings_users_headline": "Benutzer:innen",
   "settings_users_household": "Haushalt",
+  "settings_users_unauthorized_update": "Du hast nicht die Erlaubnis, dieses Update auszuführen.",
   "settings_users_username_invalid": "Fehlerhafter Name. Muss eine Länge zwischen {min} und {max} haben und keine Sonderzeichen beinhalten.",
   "shopping_add_items": "Artikel hinzufügen",
   "shopping_add_items_correction_description": "Einige Artikel wurden als falsch geschrieben erkannt und korrigiert. Nutze den Ausrufezeichen-Knopf, um die Korrektur zu prüfen bzw. rückgängig zu machen.",

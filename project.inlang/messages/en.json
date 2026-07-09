@@ -172,6 +172,7 @@
   "settings_users_edit": "Edit user",
   "settings_users_headline": "Users",
   "settings_users_household": "Household",
+  "settings_users_unauthorized_update": "You are not allowed to execute this update.",
   "settings_users_username_invalid": "Invalid name. Must have a length of {min} to {max} and contain no special characters.",
   "shopping_add_items": "Add items",
   "shopping_add_items_correction_description": "Some items were detected as misspelled and corrected. Use the exclamation button to check/revert the correction.",

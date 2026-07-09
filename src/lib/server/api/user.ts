@@ -5,6 +5,7 @@ import { logout } from '$lib/server/auth';
 import { generateDatabaseBackup } from '$lib/server/db/export';
 import {
   addUser,
+  assertLoggedInUserAuthorizedUpdate,
   assertMatchingHousehold,
   assertPermissibleAdminUpdate,
   dismissHelpDisclaimer,
@@ -98,6 +99,18 @@ const usersRouter = new Hono<AppEnv>()
           code: 'custom',
           path: ['username'],
           message: 'auth_register_error_taken'
+        }
+      ]);
+
+      return c.json({ success: false, error }, 400);
+    }
+
+    if (!(await assertLoggedInUserAuthorizedUpdate(loggedInUser, user))) {
+      const error = new z.ZodError([
+        {
+          code: 'custom',
+          path: ['form'],
+          message: 'settings_users_unauthorized_update'
         }
       ]);
 

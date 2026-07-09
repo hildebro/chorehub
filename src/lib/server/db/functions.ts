@@ -187,6 +187,41 @@ export const findAndVerifyUser = async (username: string, password: string, hous
 };
 
 /**
+ * Asserts that the logged-in-user is authorized to run the given update payload.
+ */
+export const assertLoggedInUserAuthorizedUpdate = async (loggedInUser: User, userUpdatePayload: UserPayload) => {
+  // Server admins can do anything.
+  if (loggedInUser.admin === Admin.Server) {
+    return true;
+  }
+
+  // A non-admin can do no updates.
+  if (loggedInUser.admin === Admin.None) {
+    return false;
+  }
+
+  // The user is a household admin, meaning updates are only allowed for matching household users.
+  if (loggedInUser.householdId !== userUpdatePayload.householdId) {
+    return false;
+  }
+
+  // Cannot promote to server admin status.
+  if (userUpdatePayload.admin === Admin.Server) {
+    return false;
+  }
+
+  // Nothing to check, if the user doesn't exist yet.
+  if (!userUpdatePayload.id) {
+    return true;
+  }
+
+  const dbUser = await findUser(userUpdatePayload.id) as User;
+
+  // The existing user admin status cannot be on a higher level than the logged-in-user.
+  return dbUser.admin !== Admin.Server;
+};
+
+/**
  * Asserts that there will be at least one server admin after the payload is applied. Also asserts that the household
  * the user belongs to will have at least one household admin.
  */

@@ -15,8 +15,20 @@ import {
   timestamp,
   unique
 } from 'drizzle-orm/pg-core';
+import { SystemStoreKey } from '$lib/utils/systemStoreHelper';
 import { Assignment, TaskType, Weekday } from '$lib/utils/taskHelper';
 import { Admin } from '$lib/utils/userHelper';
+
+// ============================================================================
+// SYSTEM STORE
+// ============================================================================
+export const systemStoreKeyEnum = pgEnum('systemStoreKey', SystemStoreKey);
+
+export const systemStore = pgTable('system_store', {
+  key: systemStoreKeyEnum().primaryKey(),
+  value: text().notNull(),
+  createdAt: timestamp().defaultNow().notNull()
+});
 
 // ============================================================================
 // HOUSEHOLD

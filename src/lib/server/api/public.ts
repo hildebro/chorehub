@@ -9,7 +9,15 @@ import { dev } from '$app/environment';
 import { SESSION_COOKIE } from '$lib';
 import { getLoggedInUser } from '$lib/server/auth';
 import { adminDb } from '$lib/server/db';
-import { addHousehold, addUser, createSession, findAllUsers, findAndVerifyUser } from '$lib/server/db/functions';
+import {
+  addHousehold,
+  addUser,
+  createSession,
+  findAllUsers,
+  findAndVerifyUser,
+  getCachedRemoteVersion,
+  setCachedRemoteVersion
+} from '$lib/server/db/functions';
 import { Admin } from '$lib/utils/userHelper';
 import { z } from '$lib/zod';
 
@@ -32,14 +40,20 @@ const importSchema = z.object({
 const publicRouter = new Hono()
   .get('/version', async (c) => {
     const serverVersion = __APP_VERSION__;
-    const res = await fetch('https://api.github.com/repos/hildebro/laneh/releases/latest');
 
+    const cachedRemoteVersion = await getCachedRemoteVersion();
+    if (cachedRemoteVersion) {
+      return c.json({ remoteVersion: cachedRemoteVersion, serverVersion });
+    }
+
+    const res = await fetch('https://api.github.com/repos/hildebro/laneh/releases/latest');
     if (!res.ok) {
       return c.json({ remoteVersion: '?', serverVersion });
     }
 
     const data = await res.json();
     const remoteVersion = data.tag_name.replace('v', '') as string;
+    await setCachedRemoteVersion(remoteVersion);
 
     return c.json({ remoteVersion, serverVersion });
   })

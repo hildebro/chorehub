@@ -35,8 +35,32 @@ import {
   type TaskWithRelation,
   type User
 } from '$lib/server/db/schema';
+import { SystemStoreKey } from '$lib/utils/systemStoreHelper';
 import { Assignment, TaskType, type Weekday } from '$lib/utils/taskHelper';
 import { Admin } from '$lib/utils/userHelper';
+
+// ------- SYSTEM STORE -------
+export const getCachedRemoteVersion = async () => {
+  const db = getTx();
+
+  const fourHoursAgo = new Date(Date.now() - 4 * 60 * 60 * 1000);
+
+  const remoteVersion = await db.query.systemStore.findFirst({
+    where: and(
+      eq(table.systemStore.key, SystemStoreKey.RemoteVersion),
+      gt(table.systemStore.createdAt, fourHoursAgo)
+    )
+  });
+
+  return remoteVersion?.value;
+};
+
+export const setCachedRemoteVersion = async (version: string) => {
+  const db = getTx();
+
+  await db.delete(table.systemStore).where(eq(table.systemStore.key, SystemStoreKey.RemoteVersion)).execute();
+  await db.insert(table.systemStore).values({ key: SystemStoreKey.RemoteVersion, value: version }).execute();
+};
 
 // ------- HOUSEHOLD -------
 export const addHousehold = async (name: string): Promise<string> => {

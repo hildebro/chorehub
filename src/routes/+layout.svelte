@@ -18,6 +18,8 @@
   let { children } = $props();
   let lastBackPressed = 0;
 
+  let loggedInUser = $derived(page.data.logged_in_user);
+
   async function initCapacitor(onRegister: (listener: PluginListenerHandle) => void) {
     if (!Capacitor.isNativePlatform()) {
       return;
@@ -82,7 +84,7 @@
         { m.header_head() }
       </div>
       <div class="header-action-container">
-        <AttentionAction attentionRequired={!page.data.logged_in_user.helpDisclaimerDismissed} />
+        <AttentionAction attentionRequired={loggedInUser && !loggedInUser.helpDisclaimerDismissed} />
         <HelpAction help_text={page.data.help_text} />
         <ThemeAction />
         <LanguageAction />

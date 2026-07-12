@@ -1192,7 +1192,7 @@ function calculateNextDueDate(weekdayName: Weekday, interval: number): Date {
   return nextDate;
 }
 
-export const markTaskAsDone = async (taskId: string, doneByUserId: string | null = null): Promise<void> => {
+export const completeTask = async (taskId: string, completionUserId: string | null = null): Promise<void> => {
   const db = getTx();
 
   const task = await db.query.task.findFirst({ where: eq(table.task.id, taskId) });
@@ -1203,23 +1203,22 @@ export const markTaskAsDone = async (taskId: string, doneByUserId: string | null
   if (task.type === 'single') {
     await db.update(table.task).set({
       done: true,
-      dueUserId: doneByUserId
+      dueUserId: completionUserId
     }).where(eq(table.task.id, taskId)).execute();
 
     return;
   }
 
-  const completionUserId = doneByUserId ?? task.dueUserId as string;
-  await db.insert(table.taskCompletion).values({
-    id: generateUUID(),
-    taskId,
-    userId: completionUserId,
-    date: formatDateToYYYYMMDD(new Date())
-  });
+  if (task.assignment !== Assignment.Noone) {
+    await db.insert(table.taskCompletion).values({
+      id: generateUUID(),
+      taskId,
+      userId: completionUserId as string,
+      date: formatDateToYYYYMMDD(new Date())
+    });
+  }
 
   const dueDate = formatDateToYYYYMMDD(calculateNextDueDate(task.dueWeekday as Weekday, task.dueInterval as number));
-  const dueUserId = await findNextDueUserId(taskId);
-
   if (task.endDate && task.endDate < dueDate) {
     await db.update(table.task)
       .set({ done: true })
@@ -1229,6 +1228,7 @@ export const markTaskAsDone = async (taskId: string, doneByUserId: string | null
     return;
   }
 
+  const dueUserId = await findNextDueUserId(taskId);
   await db.update(table.task)
     .set({ dueDate, dueUserId })
     .where(eq(table.task.id, taskId))

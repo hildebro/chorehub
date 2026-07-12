@@ -8,7 +8,7 @@ import {
   findDueTasks,
   findTask,
   findUpcomingTasks,
-  markTaskAsDone,
+  completeTask,
   updateTask
 } from '$lib/server/db/functions';
 import type { Task, TaskWithRelation } from '$lib/server/db/schema';
@@ -20,9 +20,9 @@ export type FrontendTask = Omit<TaskWithRelation, 'createdAt'> & {
   createdAt: string;
 };
 
-const taskDoneSchema = z.object({
+const taskCompleteSchema = z.object({
   taskId: z.string().trim().nonempty(),
-  userId: z.string().trim().nonempty()
+  userId: z.string().trim().nullish()
 });
 
 const taskSchema = z.object({
@@ -90,10 +90,24 @@ const tasksRouter = new Hono<AppEnv>()
   })
   .post(
     '/done',
-    zValidator('json', taskDoneSchema),
+    zValidator('json', taskCompleteSchema),
     async (c) => {
       const taskCompletion = c.req.valid('json');
-      await markTaskAsDone(taskCompletion.taskId, taskCompletion.userId);
+
+      const task = await findTask(taskCompletion.taskId);
+      if (task?.assignment !== Assignment.Noone && !taskCompletion.userId) {
+        const error = new z.ZodError([
+          {
+            code: 'custom',
+            path: ['type'],
+            message: 'schedule_error_type_update'
+          }
+        ]);
+
+        return c.json({ success: false, error }, 400);
+      }
+
+      await completeTask(taskCompletion.taskId, taskCompletion.userId);
 
       return c.json({ success: true });
     }

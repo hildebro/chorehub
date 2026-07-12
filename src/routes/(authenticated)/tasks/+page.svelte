@@ -11,8 +11,7 @@
   let { data } = $props();
 
   function openModalForTask(task: FrontendTask) {
-    markAsDoneTaskId = task.id;
-    markAsDoneUserId = task.dueUser?.id || '';
+    taskToComplete = task;
     doneDialog.showModal();
   }
 
@@ -22,43 +21,47 @@
 
   let doneDialog: HTMLDialogElement;
 
-  let markAsDoneTaskId = $state('');
-  let markAsDoneUserId = $state('');
+  let taskToComplete: FrontendTask | undefined = $state();
 
   async function markAsDone() {
     const client = getApiClient();
     return client.api.tasks.done.$post({
-      json: { taskId: markAsDoneTaskId, userId: markAsDoneUserId }
+      json: { taskId: taskToComplete!.id, userId: taskToComplete!.dueUserId }
     });
   }
 </script>
 
-<dialog bind:this={doneDialog}>
-  <ApiForm
-    submitAction={markAsDone}
-    onSuccess={closeModal}
-    {additionalButtons}
-  >
-    <input type="hidden" name="taskId" value={markAsDoneTaskId} />
-    <ApiFormItem
-      label={m.schedule_task_complete_user()}
-      name="userId"
-      type="select"
-      bind:value={markAsDoneUserId}
+{#if taskToComplete}
+  <dialog bind:this={doneDialog}>
+    <div>
+      <h3>{ taskToComplete.name }</h3>
+      <p>{ taskToComplete.description }</p>
+    </div>
+    <ApiForm
+      submitAction={markAsDone}
+      onSuccess={closeModal}
+      {additionalButtons}
     >
-      <option value="" selected>{ m.generic_required() }</option>
-      {#each data.users as user (user.id)}
-        <option value={user.id}>{user.username}</option>
-      {/each}
-    </ApiFormItem>
-  </ApiForm>
-  {#snippet additionalButtons()}
-    <button type="button" onclick={closeModal}>
-      <Undo2 size={12} />
-      { m.generic_cancel() }
-    </button>
-  {/snippet}
-</dialog>
+      <ApiFormItem
+        label={m.schedule_task_complete_user()}
+        name="userId"
+        type="select"
+        bind:value={taskToComplete.dueUserId}
+      >
+        <option value="" selected>{ m.generic_required() }</option>
+        {#each data.users as user (user.id)}
+          <option value={user.id}>{user.username}</option>
+        {/each}
+      </ApiFormItem>
+    </ApiForm>
+    {#snippet additionalButtons()}
+      <button type="button" onclick={closeModal}>
+        <Undo2 size={12} />
+        { m.generic_cancel() }
+      </button>
+    {/snippet}
+  </dialog>
+{/if}
 
 <div class="action-bar">
   <a role="button" href={resolve('/tasks/add')}>{ m.schedule_task_add() }</a>

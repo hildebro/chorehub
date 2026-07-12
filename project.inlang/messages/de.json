@@ -104,6 +104,7 @@
   "schedule_due_since": "Fällig seit",
   "schedule_due_tasks": "Fällige Aufgaben",
   "schedule_due_tasks_empty": "Derzeit sind keine Aufgaben fällig :)",
+  "schedule_end_date": "Wiederholen bis",
   "schedule_error_repeating_required": "Wert bei wiederkehrenden Aufgaben benötigt",
   "schedule_error_type_update": "Der Typ von Aufgaben kann nicht im Nachhinein verändert werden",
   "schedule_interval": "Interval",

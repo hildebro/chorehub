@@ -332,12 +332,12 @@ export const task = pgTable('task', {
   name: text().notNull(),
   dueUserId: text().references(() => user.id, { onDelete: 'cascade' }),
   dueDate: date(),
-  // Single specific
   done: boolean().default(false),
-  // Repeating specific
+  // Only relevant for repeating tasks
   dueWeekday: weekdayEnum(),
   dueInterval: integer(),
-  assignment: assignmentEnum()
+  assignment: assignmentEnum(),
+  endDate: date()
 }, (table) => [
   pgPolicy('isolate_households', {
     for: 'all',
@@ -346,7 +346,7 @@ export const task = pgTable('task', {
   check(
     'task_state_check',
     sql`
-      (${table.type} = 'single' AND ${table.dueWeekday} IS NULL AND ${table.dueInterval} IS NULL AND ${table.assignment} IS NULL)
+      (${table.type} = 'single' AND ${table.dueWeekday} IS NULL AND ${table.dueInterval} IS NULL AND ${table.assignment} IS NULL AND ${table.endDate} IS NULL)
       OR
       (${table.type} = 'repeating' AND ${table.dueWeekday} IS NOT NULL AND ${table.dueInterval} IS NOT NULL AND ${table.dueDate} IS NOT NULL AND ${table.assignment} IS NOT NULL)
     `

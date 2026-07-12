@@ -104,6 +104,7 @@
   "schedule_due_since": "Due since",
   "schedule_due_tasks": "Due tasks",
   "schedule_due_tasks_empty": "No tasks are currently due :)",
+  "schedule_end_date": "Repeat Until",
   "schedule_error_repeating_required": "Value required for repeating tasks",
   "schedule_error_type_update": "The type of a task cannot be changed in retrospect",
   "schedule_interval": "Interval",

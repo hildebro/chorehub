@@ -17,6 +17,7 @@
   let weekday = $derived(data.task?.dueWeekday ?? '');
   let interval = $derived(data.task?.dueInterval ?? null);
   let assignment = $derived(data.task?.assignment ?? '');
+  let endDate = $derived(data.task?.endDate ?? '');
 
   async function saveTask() {
     const client = getApiClient();
@@ -30,6 +31,7 @@
         weekday: weekday.length === 0 ? null : weekday as Weekday,
         interval,
         assignment: assignment.length === 0 ? null : assignment as Assignment,
+        endDate
       }
     });
   }
@@ -136,6 +138,12 @@
           <option value={assignmentOption}>{translateAssignment(assignmentOption)}</option>
         {/each}
       </ApiFormItem>
+      <ApiFormItem
+        label={ m.schedule_end_date() }
+        name="endDate"
+        type="date"
+        bind:value={endDate}
+      />
       {#if data.task?.completions}
         <div>{ m.schedule_completions() }</div>
         <ul>

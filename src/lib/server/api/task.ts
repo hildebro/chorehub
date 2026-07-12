@@ -28,7 +28,8 @@ const taskSchema = z.object({
     type: z.enum(TaskType),
     weekday: z.union([z.enum(Weekday), z.null()]),
     interval: z.coerce.number().min(1).nullable(),
-    assignment: z.union([z.enum(Assignment), z.null()])
+    assignment: z.union([z.enum(Assignment), z.null()]),
+    endDate: z.string().trim().pipe(z.transform((val) => (val === '' ? null : val)))
   })
     .refine(
       (data) => {
@@ -104,7 +105,7 @@ const tasksRouter = new Hono<AppEnv>()
     async (c) => {
       const task = c.req.valid('json');
       if (!task.id) {
-        await addTask(task.type, task.name, task.weekday, task.interval, task.assignment, task.dueUserId, task.dueDate);
+        await addTask(task.type, task.name, task.weekday, task.interval, task.assignment, task.dueUserId, task.dueDate, task.endDate);
 
         return c.json({ success: true });
       }
@@ -122,7 +123,7 @@ const tasksRouter = new Hono<AppEnv>()
         return c.json({ success: false, error }, 400);
       }
 
-      await updateTask(task.id, task.type, task.name, task.weekday, task.interval, task.assignment, task.dueUserId, task.dueDate);
+      await updateTask(task.id, task.type, task.name, task.weekday, task.interval, task.assignment, task.dueUserId, task.dueDate, task.endDate);
 
       return c.json({ success: true });
     }

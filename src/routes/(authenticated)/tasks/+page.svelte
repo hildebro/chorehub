@@ -125,6 +125,10 @@
       <div>{ m.schedule_assignee() }: {task.dueUser?.username ?? 'N/A'}</div>
       <p>
         <strong>{ m.schedule_due_since() }:</strong> {formatDate(task.dueDate)}
+        {#if task.endDate}
+          <br />
+          <strong>{ m.schedule_end_date() }:</strong> {formatDate(task.endDate)}
+        {/if}
       </p>
     </div>
   </article>
@@ -144,7 +148,13 @@
       <hr />
       <div>
         <div>{ m.schedule_assignee() }: {task.dueUser?.username}</div>
-        <p><strong>{ m.schedule_upcoming_at() }:</strong> {formatDate(task.dueDate)}</p>
+        <p>
+          <strong>{ m.schedule_upcoming_at() }:</strong> {formatDate(task.dueDate)}
+          {#if task.endDate}
+            <br />
+            <strong>{ m.schedule_end_date() }:</strong> {formatDate(task.endDate)}
+          {/if}
+        </p>
       </div>
     </article>
   {/each}

@@ -11,9 +11,14 @@ import {
   markTaskAsDone,
   updateTask
 } from '$lib/server/db/functions';
-import type { Task } from '$lib/server/db/schema';
+import type { Task, TaskWithRelation } from '$lib/server/db/schema';
 import { Assignment, TaskType, Weekday } from '$lib/utils/taskHelper';
 import { z } from '$lib/zod';
+
+// Hono will transmit Date objects as string.
+export type FrontendTask = Omit<TaskWithRelation, 'createdAt'> & {
+  createdAt: string;
+};
 
 const taskDoneSchema = z.object({
   taskId: z.string().trim().nonempty(),

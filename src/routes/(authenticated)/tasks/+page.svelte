@@ -41,7 +41,7 @@
   >
     <input type="hidden" name="taskId" value={markAsDoneTaskId} />
     <ApiFormItem
-      label={m.schedule_done_who()}
+      label={m.schedule_task_complete_user()}
       name="userId"
       type="select"
       bind:value={markAsDoneUserId}

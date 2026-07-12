@@ -89,7 +89,7 @@
           {#if preset === 'Due'}
             <button class="icon-button" onclick={() => onMarkAsDone(task)}>
               <Check size={16} />
-              { m.schedule_done() }
+              { m.schedule_task_complete() }
             </button>
           {/if}
         </div>

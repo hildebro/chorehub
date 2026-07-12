@@ -19,7 +19,7 @@
     files?: FileList | null;
     disabled?: boolean;
     accept?: string;
-    type?: 'text' | 'password' | 'number' | 'select' | 'money' | 'hidden' | 'date' | 'file' | 'checkbox';
+    type?: 'text' | 'textarea' | 'password' | 'number' | 'select' | 'money' | 'hidden' | 'date' | 'file' | 'checkbox';
     error?: string;
     children?: Snippet;
   } = $props();
@@ -78,6 +78,16 @@
       />
       {label}
     </label>
+  {:else if type === 'textarea'}
+    <textarea
+      class="input"
+      class:error-border={!!displayError}
+      {name}
+      id={name}
+      bind:value
+      {disabled}
+    >
+    </textarea>
   {:else}
     <input
       class="input"

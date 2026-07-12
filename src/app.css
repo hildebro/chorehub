@@ -891,8 +891,8 @@ select {
 
 /* Textareas should only resize vertically to avoid breaking layouts */
 textarea {
-    resize: vertical;
-    min-height: 6rem;
+    resize: none;
+    min-height: 8.5rem;
 }
 
 input:focus-visible,

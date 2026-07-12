@@ -333,6 +333,7 @@ export const task = pgTable('task', {
   dueUserId: text().references(() => user.id, { onDelete: 'cascade' }),
   dueDate: date(),
   done: boolean().default(false),
+  description: text(),
   // Only relevant for repeating tasks
   dueWeekday: weekdayEnum(),
   dueInterval: integer(),

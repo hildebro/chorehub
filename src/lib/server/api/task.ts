@@ -28,6 +28,7 @@ const taskDoneSchema = z.object({
 const taskSchema = z.object({
     id: z.string().trim().nullish(),
     name: z.string().trim().nonempty(),
+    description: z.string().trim(),
     dueUserId: z.string().trim().pipe(z.transform((val) => (val === '' ? null : val))),
     dueDate: z.string().trim().pipe(z.transform((val) => (val === '' ? null : val))),
     type: z.enum(TaskType),
@@ -110,7 +111,7 @@ const tasksRouter = new Hono<AppEnv>()
     async (c) => {
       const task = c.req.valid('json');
       if (!task.id) {
-        await addTask(task.type, task.name, task.weekday, task.interval, task.assignment, task.dueUserId, task.dueDate, task.endDate);
+        await addTask(task.type, task.name, task.description, task.weekday, task.interval, task.assignment, task.dueUserId, task.dueDate, task.endDate);
 
         return c.json({ success: true });
       }
@@ -128,7 +129,7 @@ const tasksRouter = new Hono<AppEnv>()
         return c.json({ success: false, error }, 400);
       }
 
-      await updateTask(task.id, task.type, task.name, task.weekday, task.interval, task.assignment, task.dueUserId, task.dueDate, task.endDate);
+      await updateTask(task.id, task.type, task.name, task.description, task.weekday, task.interval, task.assignment, task.dueUserId, task.dueDate, task.endDate);
 
       return c.json({ success: true });
     }

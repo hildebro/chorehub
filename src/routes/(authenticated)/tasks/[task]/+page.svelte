@@ -10,6 +10,7 @@
 
   let id = $derived(data.task?.id);
   let name = $derived(data.task?.name ?? '');
+  let description = $derived(data.task?.description ?? '');
   let dueDate = $derived(data.task?.dueDate ?? '');
   let dueUserId = $derived(data.task?.dueUserId ?? '');
   let isRepeating = $derived((data.task?.type ?? TaskType.Single) === TaskType.Repeating);
@@ -25,6 +26,7 @@
       json: {
         id,
         name,
+        description,
         dueDate,
         dueUserId,
         type,
@@ -81,6 +83,12 @@
       label={m.generic_name()}
       name="name"
       bind:value={name}
+    />
+    <ApiFormItem
+      label={m.schedule_task_description()}
+      name="description"
+      type="textarea"
+      bind:value={description}
     />
     <ApiFormItem
       label={m.schedule_assignee()}

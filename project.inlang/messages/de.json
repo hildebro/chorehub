@@ -108,6 +108,7 @@
   "schedule_interval_every": "Alle",
   "schedule_interval_weeks": "Wochen",
   "schedule_task_add": "Aufgabe hinzufügen",
+  "schedule_task_description": "Beschreibung",
   "schedule_task_complete": "Erledigen",
   "schedule_task_complete_user": "Wer hat die Aufgabe erledigt?",
   "schedule_tasks_empty": "Keine Aufgaben verfügbar.",

@@ -1106,12 +1106,13 @@ export const findCompletedTasks = async (): Promise<TaskWithRelation[]> => {
   });
 };
 
-export const addTask = async (type: TaskType, name: string, weekday: Weekday | null, interval: number | null, assignment: Assignment | null, userId: string | null, dueDate: string | null, endDate: string | null) => {
+export const addTask = async (type: TaskType, name: string, description: string, weekday: Weekday | null, interval: number | null, assignment: Assignment | null, userId: string | null, dueDate: string | null, endDate: string | null) => {
   const db = getTx();
 
   await db.insert(table.task).values({
     id: generateUUID(),
-    name: name,
+    name,
+    description,
     type,
     dueWeekday: weekday,
     dueInterval: interval,
@@ -1122,12 +1123,13 @@ export const addTask = async (type: TaskType, name: string, weekday: Weekday | n
   });
 };
 
-export const updateTask = async (taskId: string, type: TaskType, name: string, weekday: Weekday | null, interval: number | null, assignment: Assignment | null, userId: string | null, dueDate: string | null, endDate: string | null) => {
+export const updateTask = async (taskId: string, type: TaskType, name: string, description: string, weekday: Weekday | null, interval: number | null, assignment: Assignment | null, userId: string | null, dueDate: string | null, endDate: string | null) => {
   const db = getTx();
 
   await db.update(table.task)
     .set({
-      name: name,
+      name,
+      description,
       type,
       dueWeekday: weekday as Weekday,
       dueInterval: interval,

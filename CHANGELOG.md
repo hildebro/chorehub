@@ -1,3 +1,22 @@
+# [2.16.0](https://github.com/hildebro/laneh/compare/v2.15.0...v2.16.0) (2026-07-13)
+
+
+### Bug Fixes
+
+* add auth checks to user-update api ([8b4cf13](https://github.com/hildebro/laneh/commit/8b4cf13e8f57f889e0f80d7010e376a541d589d5))
+* better wording for completing task ([0242462](https://github.com/hildebro/laneh/commit/0242462310a6daacc3203485a491df466e62c9ce))
+* helpDisclaimerDismissed breaking non-authenticated views ([424f8e9](https://github.com/hildebro/laneh/commit/424f8e97f2705de0af6b8c7aaebc95fe8fea61d6))
+
+
+### Features
+
+* add description to task form ([4f98f26](https://github.com/hildebro/laneh/commit/4f98f2680579b2409ec282922fec2c7aba11ba22))
+* add system store for remote version ([ad3c5d7](https://github.com/hildebro/laneh/commit/ad3c5d72337234d3bef6a3ffb7b08ff75aaa33a2))
+* improved task overview (collapsible + denser) ([b487f1f](https://github.com/hildebro/laneh/commit/b487f1fb7a0ee5a46d50109cc5d5f63321ac096b))
+* little triangle for <details> ([73c45ba](https://github.com/hildebro/laneh/commit/73c45ba34a61d2670e71581b2bc3f27cfac0cf09))
+* optional end date for repeating tasks ([bbc40fd](https://github.com/hildebro/laneh/commit/bbc40fd04adfced7c97449942b42bf8c47563edf))
+* show description in task-completion-modal ([755b1cf](https://github.com/hildebro/laneh/commit/755b1cf2aa50091e124f4849f0185ed7f5cf9b0f))
+
 # [2.15.0](https://github.com/hildebro/laneh/compare/v2.14.0...v2.15.0) (2026-07-07)
 
 

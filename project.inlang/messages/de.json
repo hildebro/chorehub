@@ -130,6 +130,7 @@
   "server_picker_connect": "Mit Server verbinden",
   "server_picker_error": "Verbindung fehlgeschlagen. Bitte prüfe die URL und versuche es erneut.",
   "server_picker_header": "Server Setup",
+  "server_picker_info": "Willkommen in Laneh.\n\nUm die App zu benutzen, brauchst du Zugang zu einer Server Instanz.\n\nWenn du eine Person kennst, die Laneh schon benutzt, kannst du sie nach einem Link fragen.\n\nAlternativ benutze die offizielle Anleitung, um eine eigene Server Instanz aufzusetzen: https://github.com/hildebro/laneh/",
   "server_picker_input_invalid": "Bitte gib eine URL ein.",
   "server_picker_text": "Bitte gib die URL deiner selbst-gehosteten Instanz ein.",
   "settings_actions_export": "Datenbank exportieren",

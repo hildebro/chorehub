@@ -130,6 +130,7 @@
   "server_picker_connect": "Connect to server",
   "server_picker_error": "Connection failed. Please check the URL and try again.",
   "server_picker_header": "Server setup",
+  "server_picker_info": "Welcome to Laneh.\n\nYou need access to a server instance in order to use this app.\n\nIf you know a person that already uses Laneh, you can ask them for access to their instance.\n\nAlternatively you can follow the official guide to create your own server instance: https://github.com/hildebro/laneh/",
   "server_picker_input_invalid": "Please enter a URL.",
   "server_picker_text": "Please enter the URL of your self-hosted instance.",
   "settings_actions_export": "Export database",

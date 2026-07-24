@@ -14,6 +14,7 @@
   "balance_expense_distribution_invalid_sum": "Summe der Zahlen muss 100% ergeben",
   "balance_expense_edit": "Ausgabe anpassen",
   "balance_expense_user": "Käufer:in",
+  "balance_info": "'Käufer:in' gibt an, wer die Ausgabe getätigt hat.\n\n'Aufteilung' gibt an, welche Nutzer:innen in welchem Umfang an der Ausgabe beteiligt sind. Je höher der Prozentsatz, desto mehr übernimmt die Person. Unbeteiligte Nutzer:innen können auf 0% gesetzt werden.",
   "balance_no_name_label": "Einkauf",
   "balance_owed": "{user} erhält",
   "balance_owed_debtor": "{amount} von {debtor}",

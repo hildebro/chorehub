@@ -14,6 +14,7 @@
   "balance_expense_distribution_invalid_sum": "Sum of amounts must be exactly 100%",
   "balance_expense_edit": "Edit expense",
   "balance_expense_user": "Buyer",
+  "balance_info": "'Buyer' describes who paid for the expense.\n\n'Distribution' describes to what extend users are involved in the expense. The higher the percentage, the more a person must cover. Uninvolved users can be set to 0%.",
   "balance_no_name_label": "Shopping",
   "balance_owed": "{user} is owed",
   "balance_owed_debtor": "{amount} by {debtor}",

@@ -5,6 +5,7 @@
   import { getApiClient } from '$lib/apiClient';
   import ApiForm from '$lib/components/ApiForm.svelte';
   import ApiFormItem from '$lib/components/ApiFormItem.svelte';
+  import Confetti from '$lib/components/Confetti.svelte';
   import * as m from '$lib/paraglide/messages.js';
   import type { FrontendTask } from '$lib/server/api/task';
 
@@ -23,6 +24,13 @@
 
   let taskToComplete: FrontendTask | undefined = $state();
 
+  let showConfetti = $state(false);
+
+  function onSuccess() {
+    closeModal();
+    showConfetti = true;
+  }
+
   async function markAsDone() {
     const client = getApiClient();
     return client.api.tasks.done.$post({
@@ -30,6 +38,8 @@
     });
   }
 </script>
+
+<Confetti bind:show={showConfetti} />
 
 <dialog bind:this={doneDialog}>
   {#if taskToComplete}
@@ -39,7 +49,7 @@
     </div>
     <ApiForm
       submitAction={markAsDone}
-      onSuccess={closeModal}
+      {onSuccess}
       {additionalButtons}
     >
       <ApiFormItem

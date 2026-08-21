@@ -4,6 +4,7 @@
   import { getApiClient } from '$lib/apiClient';
   import ApiForm from '$lib/components/ApiForm.svelte';
   import ApiFormGroup from '$lib/components/ApiFormGroup.svelte';
+  import ApiFormItem from '$lib/components/ApiFormItem.svelte';
   import * as m from '$lib/paraglide/messages.js';
 
   let { data } = $props();
@@ -12,20 +13,34 @@
 
   let pendingCategoryId = $state<string>('');
 
-  async function submitAction() {
+  async function submitCategorizeAction() {
     const client = getApiClient();
     return client.api.shopping.categorizeItems.$post({
       json: { itemIds, categoryId: pendingCategoryId }
     });
   }
 
-  async function onSuccess(response: Response) {
+  async function onCategorizeSuccess(response: Response) {
     const json = await response.json();
     if (json?.finished) {
       await goto(resolve('/shopping'));
     }
 
     await invalidateAll();
+  }
+
+  async function submitNewCategoryAction() {
+    const client = getApiClient();
+    return client.api.shopping.category.$post({
+      json: { name: categoryName, id: null }
+    });
+  }
+
+  let categoryName = $state('');
+
+  async function onNewCategorySuccess() {
+    await invalidateAll();
+    categoryName = '';
   }
 
   async function cancelAction() {
@@ -61,8 +76,8 @@
   </div>
 
   <ApiForm
-    {submitAction}
-    {onSuccess}
+    submitAction={submitCategorizeAction}
+    onSuccess={onCategorizeSuccess}
     submitButtonHidden={true}
   >
     <ApiFormGroup name="itemIds" label={m.shopping_categorize_select_category()}>
@@ -77,6 +92,17 @@
         {/each}
       </div>
     </ApiFormGroup>
+  </ApiForm>
+  <ApiForm
+    submitAction={submitNewCategoryAction}
+    onSuccess={onNewCategorySuccess}
+    submitButtonText={m.settings_categories_add()}
+  >
+    <ApiFormItem
+      label={m.shopping_categorize_new_category()}
+      name="name"
+      bind:value={categoryName}
+    />
   </ApiForm>
 </article>
 

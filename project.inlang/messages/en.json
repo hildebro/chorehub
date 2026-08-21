@@ -193,6 +193,7 @@
   "shopping_add_items_suggestions": "These popular items haven't been bought in a while. You can add them by pressing the button:",
   "shopping_cancel_staging": "Cancel adding items",
   "shopping_categorize": "Categorize items",
+  "shopping_categorize_new_category": "Or add a new category",
   "shopping_categorize_select_category": "Set the category for your selected items:",
   "shopping_categorize_select_items": "Select items that you want to categorize together:",
   "shopping_categorize_select_items_invalid": "Please select at least one item to categorize",

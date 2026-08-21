@@ -20,6 +20,7 @@
   "balance_owed_debtor": "{amount} von {debtor}",
   "balance_price": "Price",
   "dashboard_balance_go_to": "Saldos ansehen",
+  "dashboard_help": "Willkommen in Laneh! Diese App hat drei Funktionsbereiche: Einkäufe, Ausgaben und Aufgaben. Es gibt ein paar Überschneidungen, wie z.B. das Verknüpfen eines Einkaufes mit einer Ausgabe. Aber größtenteils sind die Bereiche separat.\n\nDiese Übersicht gibt ein paar Informationen aus allen Bereichen, aber es gibt mehr in Details in den individuellen Bereichen.\n\nNavigiere zu einem Bereich und nutze den 'Hilfe' Knopf für spezifischere Hilfstexte.",
   "dashboard_schedule_count": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],

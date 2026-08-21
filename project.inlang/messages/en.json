@@ -20,6 +20,7 @@
   "balance_owed_debtor": "{amount} by {debtor}",
   "balance_price": "Price",
   "dashboard_balance_go_to": "View balances",
+  "dashboard_help": "Welcome to Laneh! The app has three feature areas: Shopping, Expenses and Tasks. There are some overlaps, i.e. linking shopping purchases to expenses. But mostly the three areas are separate from each other.\n\nThis dashboard gives you some information on all areas, but there are more details in each individual area.\n\nNavigate to an area and use the 'Help' button for more specific help.",
   "dashboard_schedule_count": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],

@@ -46,79 +46,83 @@
   let deleteDialog: HTMLDialogElement;
 </script>
 
-<div class="action-bar">
-  <label>
-    <input type="checkbox" checked={showInactiveItems} onchange={() => showInactiveItems = !showInactiveItems} />
-    { m.settings_items_show_inactive() }
-  </label>
-</div>
-<CategorizedItemSelect bind:value={itemIds} categories={data.categories} unfiltered={showInactiveItems} />
-<article>
-  <ApiForm
-    submitAction={setCategory}
-    {onSuccess}
-    submitButtonHidden={true}
-  >
-    <ApiFormGroup name="itemIds" label={m.settings_items_change_category()}>
-      <div class="action-row">
-        {#each data.categories as category (category.id)}
-          <button
-            type="submit"
-            onclick={() => pendingCategoryId = category.id}
-          >
-            {category.name}
-          </button>
-        {/each}
-      </div>
-    </ApiFormGroup>
-  </ApiForm>
-  <hr />
-  <h2>{ m.settings_items_other_actions() }</h2>
-  <div class="action-row">
+{#if data.categories.every(category => category.shoppingItems.length === 0)}
+  <article>{m.settings_items_empty()}</article>
+{:else}
+  <div class="action-bar">
+    <label>
+      <input type="checkbox" checked={showInactiveItems} onchange={() => showInactiveItems = !showInactiveItems} />
+      { m.settings_items_show_inactive() }
+    </label>
+  </div>
+  <CategorizedItemSelect bind:value={itemIds} categories={data.categories} unfiltered={showInactiveItems} />
+  <article>
     <ApiForm
-      submitAction={deactivateItems}
-      submitButtonClasses="warning"
-      submitButtonText={m.settings_items_deactivate()}
+      submitAction={setCategory}
       {onSuccess}
+      submitButtonHidden={true}
     >
+      <ApiFormGroup name="itemIds" label={m.settings_items_change_category()}>
+        <div class="action-row">
+          {#each data.categories as category (category.id)}
+            <button
+              type="submit"
+              onclick={() => pendingCategoryId = category.id}
+            >
+              {category.name}
+            </button>
+          {/each}
+        </div>
+      </ApiFormGroup>
+    </ApiForm>
+    <hr />
+    <h2>{ m.settings_items_other_actions() }</h2>
+    <div class="action-row">
+      <ApiForm
+        submitAction={deactivateItems}
+        submitButtonClasses="warning"
+        submitButtonText={m.settings_items_deactivate()}
+        {onSuccess}
+      >
+        <ApiFormItem
+          label=""
+          name="itemIds"
+          value={itemIds}
+          type="hidden"
+        />
+      </ApiForm>
+      <button class="error" onclick={() => deleteDialog.showModal()}>
+        { m.settings_items_delete() }
+      </button>
+    </div>
+  </article>
+
+  <dialog bind:this={deleteDialog}>
+    <ApiForm
+      submitAction={deleteItems}
+      onSuccess={onDeleteSuccess}
+      submitButtonText={m.generic_confirm()}
+    >
+      <h2>{m.settings_items_delete()}</h2>
+      <p>{ m.settings_items_delete_info() }</p>
       <ApiFormItem
         label=""
         name="itemIds"
         value={itemIds}
         type="hidden"
       />
+      {#snippet additionalButtons()}
+        <button
+          type="button"
+          onclick={() => deleteDialog.close()}
+        >
+          <Undo2 />
+          { m.generic_cancel() }
+        </button>
+      {/snippet}
     </ApiForm>
-    <button class="error" onclick={() => deleteDialog.showModal()}>
-      { m.settings_items_delete() }
-    </button>
-  </div>
-</article>
-
-<dialog bind:this={deleteDialog}>
-  <ApiForm
-    submitAction={deleteItems}
-    onSuccess={onDeleteSuccess}
-    submitButtonText={m.generic_confirm()}
-  >
-    <h2>{m.settings_items_delete()}</h2>
-    <p>{ m.settings_items_delete_info() }</p>
-    <ApiFormItem
-      label=""
-      name="itemIds"
-      value={itemIds}
-      type="hidden"
-    />
-    {#snippet additionalButtons()}
-      <button
-        type="button"
-        onclick={() => deleteDialog.close()}
-      >
-        <Undo2 />
-        { m.generic_cancel() }
-      </button>
-    {/snippet}
-  </ApiForm>
-</dialog>
+  </dialog>
+{/if}
 
 <style>
     hr {

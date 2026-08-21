@@ -157,6 +157,7 @@
   "settings_items_deactivate": "Deaktivieren",
   "settings_items_delete": "Permanent entfernen",
   "settings_items_delete_info": "Du bist dabei die ausgewählten Artikel zu löschen, inklusive ihrer Kaufhistorie. Es wäre vielleicht besser, die Artikel stattdessen zu deaktivieren oder in eine andere Kategorie zu verschieben. Bist du sicher, dass du die Artikel löschen willst?",
+  "settings_items_empty": "Es gibt noch keine Artikel zum Verwalten.",
   "settings_items_headline": "Artikel",
   "settings_items_other_actions": "Oder wähle eine andere Aktion für die ausgewählten Artikel:",
   "settings_items_show_inactive": "Deaktivierte Artikel anzeigen",

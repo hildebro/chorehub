@@ -31,8 +31,8 @@
   }
 </script>
 
-{#if taskToComplete}
-  <dialog bind:this={doneDialog}>
+<dialog bind:this={doneDialog}>
+  {#if taskToComplete}
     <div>
       <h3>{ taskToComplete.name }</h3>
       <p>{ taskToComplete.description }</p>
@@ -60,8 +60,8 @@
         { m.generic_cancel() }
       </button>
     {/snippet}
-  </dialog>
-{/if}
+  {/if}
+</dialog>
 
 <div class="action-bar">
   <a role="button" href={resolve('/tasks/add')}>{ m.schedule_task_add() }</a>

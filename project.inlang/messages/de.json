@@ -197,6 +197,7 @@
   "shopping_categorize_select_items": "Wähle Artikel aus, die zusammen kategorisiert werden sollen:",
   "shopping_categorize_select_items_invalid": "Bitte wähle mindestens einen Artikel zum Kategorisieren aus",
   "shopping_finish_purchase": "Einkauf beenden",
+  "shopping_help": "In diesem Bereich kannst du Kategorien definieren, Artikel zu Kategorien hinzufügen und sie beim Einkaufen von der Liste abhaken.\n\nStarte damit, ein paar Kategorien hinzuzufügen, die mit Bereichen deines Supermarktes übereinstimmen, z.B. Frischeabteilung, Backzutaten, Konserven, Getränke, etc.\n\nDanach kannst du Artikel zur Liste hinzufügen. Beim ersten Hinzufügen eines Artikels musst du eine Kategorie festlegen. Danach werden die Artikel automatisch in der richtigen Kategorie auftauchen.\n\nSobald du einen Supermarkt betrittst, kannst du einen Einkauf starten und Artikel abhaken, sobald du sie in deinen Einkaufswagen legst.\n\nWenn du irgendwann später präziser sein willst und neue Kategorien hinzufügst, kannst du bekannte Artikel im Bereich Menü > Einstellungen > Artikel neu zuweisen.",
   "shopping_purchase_filter_age": "Nur die letzten 7 Tage",
   "shopping_purchase_filter_unmatched": "Einkäufe mit Ausgabe verstecken",
   "shopping_purchase_finished": "Einkauf gespeichert. Du kannst nun eine Ausgabe hinzufügen, die automatisch mit dem Einkauf verlinkt wird.",

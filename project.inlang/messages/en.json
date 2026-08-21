@@ -197,6 +197,7 @@
   "shopping_categorize_select_items": "Select items that you want to categorize together:",
   "shopping_categorize_select_items_invalid": "Please select at least one item to categorize",
   "shopping_finish_purchase": "Finish purchase",
+  "shopping_help": "This area lets you define categories, assign items to those categories and then check them off as you do your shopping.\n\nStart off by creating some categories that correspond to areas in your shop of choice, i.e. fresh produce, baking, canned food, drinks, etc.\n\nThen add items to your list. If the items are added for the first time, you must assign them to a category. From the second time onward, they will automatically show up in the category you chose.\n\nWhen you enter the shop, you can start a purchase and check off items as you put them in your cart.\n\nIf you ever add new categories later on to be more accurate, you can reassign existing items to that category via Menu > Settings > Items.",
   "shopping_purchase_filter_age": "Limit to last 7 days",
   "shopping_purchase_filter_unmatched": "Hide expensed purchases",
   "shopping_purchase_finished": "Purchase recorded. You may now add an expense which will be linked to that purchase.",

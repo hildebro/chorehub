@@ -115,6 +115,7 @@
   "schedule_task_description": "Beschreibung",
   "schedule_task_complete": "Erledigen",
   "schedule_task_complete_user": "Wer hat die Aufgabe erledigt?",
+  "schedule_task_complete_user_noone" : "Kein:e Nutzer:in benötigt",
   "schedule_tasks_empty": "Keine Aufgaben verfügbar.",
   "schedule_task_repeating": "Wiederholende Aufgabe",
   "schedule_task_update": "Aufgabe bearbeiten",

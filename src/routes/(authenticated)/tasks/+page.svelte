@@ -8,7 +8,7 @@
   import Confetti from '$lib/components/Confetti.svelte';
   import * as m from '$lib/paraglide/messages.js';
   import type { FrontendTask } from '$lib/server/api/task';
-  import { Assignment } from '$lib/utils/taskHelper';
+  import { Assignment, TaskType } from '$lib/utils/taskHelper';
 
   let { data } = $props();
 
@@ -44,8 +44,12 @@
   }
 
   const doneDialogEmptyUserLabel = () => {
-    if (!taskToComplete) {
+    if (!taskToComplete || taskToComplete.type === TaskType.Single) {
       return '';
+    }
+
+    if (taskToComplete.assignment === Assignment.Noone) {
+      return m.schedule_task_complete_user_noone();
     }
 
     if (
@@ -77,6 +81,7 @@
         name="userId"
         type="select"
         bind:value={taskToComplete.dueUserId}
+        disabled={taskToComplete.assignment === Assignment.Noone}
       >
         <option value="" selected>{ doneDialogEmptyUserLabel() }</option>
         {#each data.users as user (user.id)}

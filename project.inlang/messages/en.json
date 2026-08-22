@@ -115,6 +115,7 @@
   "schedule_task_description": "Description",
   "schedule_task_complete": "Complete",
   "schedule_task_complete_user": "Who completed the task?",
+  "schedule_task_complete_user_noone": "No user required",
   "schedule_tasks_empty": "No tasks available.",
   "schedule_task_repeating": "Repeating task",
   "schedule_task_update": "Edit task",

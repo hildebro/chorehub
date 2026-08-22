@@ -22,7 +22,7 @@ export type FrontendTask = Omit<TaskWithRelation, 'createdAt'> & {
 
 const taskCompleteSchema = z.object({
   taskId: z.string().trim().nonempty(),
-  userId: z.string().trim().pipe(z.transform((val) => (val === '' ? null : val)))
+  userId: z.string().trim().nullish().pipe(z.transform((val) => (val === '' ? null : val)))
 });
 
 const taskSchema = z.object({

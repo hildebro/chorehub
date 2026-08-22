@@ -1,3 +1,26 @@
+# [2.17.0](https://github.com/hildebro/laneh/compare/v2.16.0...v2.17.0) (2026-08-22)
+
+
+### Bug Fixes
+
+* allow task to be done without user ([c76ee8d](https://github.com/hildebro/laneh/commit/c76ee8d48b0ecde60d66b83140d5a1e915997648))
+* for assignment = None, don't allow user selection ([1692ca3](https://github.com/hildebro/laneh/commit/1692ca3a1c5f0cc1860b64884d6ca23d6e676055))
+* in task crud, prevent due user + assignment.noone ([25c5d6e](https://github.com/hildebro/laneh/commit/25c5d6e200a60e7a4ea98fd491c4c1663be1b446))
+* item settings without any items ([303dc45](https://github.com/hildebro/laneh/commit/303dc45badd3334b828068a17f9360b7f2f8533c))
+* label for empty value in task-done-dialog ([71e3188](https://github.com/hildebro/laneh/commit/71e31882608c63153c6e88f721f0cd89025eceac))
+* mark task as done needs 2 clicks ([922fd67](https://github.com/hildebro/laneh/commit/922fd674bf4926842b31189f67f8150199706301))
+
+
+### Features
+
+* add categories in item-categorize view ([0020582](https://github.com/hildebro/laneh/commit/0020582ff4df546ebc6831cdf5f0dd6a04e54a07))
+* confetti for tasks ([330ee98](https://github.com/hildebro/laneh/commit/330ee98106653fd77acb2868b495e17330243a7a))
+* help text for dashboard ([bc87c72](https://github.com/hildebro/laneh/commit/bc87c72100440f67402ef19ca4b3a433599948ff))
+* help text for expenses ([460b8e8](https://github.com/hildebro/laneh/commit/460b8e8f730706394cb02e3dbbd2276876228bee))
+* help text for server picker ([90fe82c](https://github.com/hildebro/laneh/commit/90fe82c7fe2a44708076721cf6a06274b832959e))
+* help text for shopping ([514bf53](https://github.com/hildebro/laneh/commit/514bf53937f3e5920756490b8b07cc9b09f36d26))
+* help text for tasks ([b6cffb5](https://github.com/hildebro/laneh/commit/b6cffb5900aab2c283df0ad4e730ce01376f3f0d))
+
 # [2.16.0](https://github.com/hildebro/laneh/compare/v2.15.0...v2.16.0) (2026-07-13)
 
 

@@ -11,6 +11,7 @@
     accept,
     type = 'text',
     error = '',
+    onchange,
     children
   }: {
     label: string;
@@ -21,6 +22,7 @@
     accept?: string;
     type?: 'text' | 'textarea' | 'password' | 'number' | 'select' | 'money' | 'hidden' | 'date' | 'file' | 'checkbox';
     error?: string;
+    onchange?: (event: Event) => void;
     children?: Snippet;
   } = $props();
 
@@ -42,6 +44,7 @@
       id={name}
       bind:value
       {disabled}
+      {onchange}
     >
       <!-- Conditional to make the type-check happy. Even though select without children should not happen. -->
       {#if children}

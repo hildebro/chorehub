@@ -67,6 +67,12 @@
         return m.schedule_assignment_noone();
     }
   }
+
+  const handleAssignmentChange = () => {
+    if (assignment === Assignment.Noone) {
+      dueUserId = '';
+    }
+  }
 </script>
 
 <article>
@@ -95,6 +101,7 @@
       name="assignee"
       type="select"
       bind:value={dueUserId}
+      disabled={assignment === Assignment.Noone}
     >
       <option value="" selected></option>
       {#each data.users as user (user.id)}
@@ -140,6 +147,7 @@
         name="assignment"
         type="select"
         bind:value={assignment}
+        onchange={handleAssignmentChange}
       >
         <option value="" selected>{ m.generic_required() }</option>
         {#each Object.values(Assignment) as assignmentOption (assignmentOption)}

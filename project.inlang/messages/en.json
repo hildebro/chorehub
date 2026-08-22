@@ -104,6 +104,7 @@
   "schedule_due_since": "Due since",
   "schedule_due_tasks": "Due tasks",
   "schedule_end_date": "Repeat Until",
+  "schedule_error_done_wihtout_assignee": "This repeating task requires a user to be set.",
   "schedule_error_repeating_required": "Value required for repeating tasks",
   "schedule_error_type_update": "The type of a task cannot be changed in retrospect",
   "schedule_info": "Tasks can be 'one-off' or 'repeating'.\n\nOne-off tasks can be completed once and then disappear from the list.\n\nRepeating tasks need an interval and an assignment strategy.\n\nAssignments explained:\nEveryone: After each completion, the assignee is rotated through all existing users.\nSomeone: The task has one static assignee that never changes.\nNoone: The task is never assigned to a user.\n\nThe field 'repeat until' can be used to define an end date for repeating tasks. If the next interval due date would exceed the specified date, the repeating is stopped. The task is marked as 'done' instead.",

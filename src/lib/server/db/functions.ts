@@ -31,7 +31,7 @@ import {
   type ShoppingCategoryWithRelation,
   type ShoppingItem,
   shoppingItem,
-  stagedShoppingPurchaseItem,
+  stagedShoppingPurchaseItem, type Task,
   type TaskWithRelation,
   type User
 } from '$lib/server/db/schema';
@@ -1192,13 +1192,10 @@ function calculateNextDueDate(weekdayName: Weekday, interval: number): Date {
   return nextDate;
 }
 
-export const completeTask = async (taskId: string, completionUserId: string | null = null): Promise<void> => {
+export const completeTask = async (task: Task, completionUserId: string | null = null): Promise<void> => {
   const db = getTx();
 
-  const task = await db.query.task.findFirst({ where: eq(table.task.id, taskId) });
-  if (!task) {
-    throw new Error('entity not found');
-  }
+  const taskId = task.id;
 
   if (task.type === 'single') {
     await db.update(table.task).set({
@@ -1209,14 +1206,12 @@ export const completeTask = async (taskId: string, completionUserId: string | nu
     return;
   }
 
-  if (task.assignment !== Assignment.Noone) {
-    await db.insert(table.taskCompletion).values({
-      id: generateUUID(),
-      taskId,
-      userId: completionUserId as string,
-      date: formatDateToYYYYMMDD(new Date())
-    });
-  }
+  await db.insert(table.taskCompletion).values({
+    id: generateUUID(),
+    taskId,
+    userId: completionUserId as string,
+    date: formatDateToYYYYMMDD(new Date())
+  });
 
   const dueDate = formatDateToYYYYMMDD(calculateNextDueDate(task.dueWeekday as Weekday, task.dueInterval as number));
   if (task.endDate && task.endDate < dueDate) {

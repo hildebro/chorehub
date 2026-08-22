@@ -22,7 +22,7 @@ export type FrontendTask = Omit<TaskWithRelation, 'createdAt'> & {
 
 const taskCompleteSchema = z.object({
   taskId: z.string().trim().nonempty(),
-  userId: z.string().trim().nullish()
+  userId: z.string().trim().pipe(z.transform((val) => (val === '' ? null : val)))
 });
 
 const taskSchema = z.object({
@@ -95,19 +95,27 @@ const tasksRouter = new Hono<AppEnv>()
       const taskCompletion = c.req.valid('json');
 
       const task = await findTask(taskCompletion.taskId);
-      if (task?.assignment !== Assignment.Noone && !taskCompletion.userId) {
+      if (!task) {
+        return c.json({ error: 'Task not found' }, 404);
+      }
+
+      if (
+        task.type === TaskType.Repeating
+        && task.assignment !== Assignment.Noone
+        && !taskCompletion.userId
+      ) {
         const error = new z.ZodError([
           {
             code: 'custom',
-            path: ['type'],
-            message: 'schedule_error_type_update'
+            path: ['userId'],
+            message: 'schedule_error_done_wihtout_assignee'
           }
         ]);
 
         return c.json({ success: false, error }, 400);
       }
 
-      await completeTask(taskCompletion.taskId, taskCompletion.userId);
+      await completeTask(task, taskCompletion.userId);
 
       return c.json({ success: true });
     }

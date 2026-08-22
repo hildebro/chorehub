@@ -104,6 +104,7 @@
   "schedule_due_since": "Fällig seit",
   "schedule_due_tasks": "Fällige Aufgaben",
   "schedule_end_date": "Wiederholen bis",
+  "schedule_error_done_wihtout_assignee": "Diese wiederkehrende Aufgabe benötigt zum Erledigen eine Person.",
   "schedule_error_repeating_required": "Wert bei wiederkehrenden Aufgaben benötigt",
   "schedule_error_type_update": "Der Typ von Aufgaben kann nicht im Nachhinein verändert werden",
   "schedule_info": "Aufgaben können 'einmalig' oder 'wiederholend' sein.\n\nEinmalige Aufgaben werden nur einmal erledigt und verschwinden danach.\n\nBei wiederholenden Aufgaben müssen der Interval und die Zuständigkeit definiert werden.\n\nZuständigkeit erklärt:\nAlle: Die Aufgabe wird nach jeder Erledigung automatisch an Nutzer:innen zugeteilt anhand dessen, wie oft die Aufgabe pro Nutzer:in bisher erledigt wurde.\nJemand: Beim Speichern der Aufgabe wird ein:e Zuständige:r festgelegt. Diese Person wird bei jeder Wiederholung weiter benutzt.\nNiemand: Die Aufgabe hat nie eine:n Zuständige:n.\n\nMit 'wiederholen bis' können wiederholende Aufgaben für einen bestimmten Zeitraum angelegt werden. Wenn dieser Wert beim Finden des nächsten Wiederholungsdatums überschritten werden würde, gibt es keine weitere Wiederholung. Die Aufgabe wird stattdessen als 'fertig' markiert.",

@@ -359,7 +359,7 @@ export type Task = typeof task.$inferSelect;
 export const taskCompletion = pgTable('task_completion', {
   id: text().primaryKey(),
   taskId: text().notNull().references(() => task.id, { onDelete: 'cascade' }),
-  userId: text().references(() => user.id, { onDelete: 'cascade' }).notNull(),
+  userId: text().references(() => user.id, { onDelete: 'cascade' }),
   date: date().notNull()
 });
 

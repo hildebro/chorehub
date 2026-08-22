@@ -8,11 +8,16 @@
   import Confetti from '$lib/components/Confetti.svelte';
   import * as m from '$lib/paraglide/messages.js';
   import type { FrontendTask } from '$lib/server/api/task';
+  import { Assignment } from '$lib/utils/taskHelper';
 
   let { data } = $props();
 
   function openModalForTask(task: FrontendTask) {
     taskToComplete = task;
+    if (!task.dueUserId) {
+      taskToComplete.dueUserId = '';
+    }
+
     doneDialog.showModal();
   }
 
@@ -37,6 +42,21 @@
       json: { taskId: taskToComplete!.id, userId: taskToComplete!.dueUserId }
     });
   }
+
+  const doneDialogEmptyUserLabel = () => {
+    if (!taskToComplete) {
+      return '';
+    }
+
+    if (
+      taskToComplete.assignment === Assignment.Everyone
+      || taskToComplete.assignment === Assignment.Someone
+    ) {
+      return m.generic_required();
+    }
+
+    return '';
+  }
 </script>
 
 <Confetti bind:show={showConfetti} />
@@ -58,7 +78,7 @@
         type="select"
         bind:value={taskToComplete.dueUserId}
       >
-        <option value="" selected>{ m.generic_required() }</option>
+        <option value="" selected>{ doneDialogEmptyUserLabel() }</option>
         {#each data.users as user (user.id)}
           <option value={user.id}>{user.username}</option>
         {/each}

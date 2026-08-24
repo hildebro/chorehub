@@ -1,21 +1,4 @@
 services:
-  laneh-db:
-    image: postgres:17.4-bookworm
-    restart: always
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-    volumes:
-      - ${DATABASE_LOCATION}:/var/lib/postgresql/data
-    configs:
-      - source: init-db-user
-        target: /docker-entrypoint-initdb.d/init-db-user.sql
-    networks:
-      - laneh-network
-
   laneh-app:
     build:
       context: .
@@ -26,24 +9,14 @@ services:
     env_file:
       - .env
     environment:
-      DATABASE_URL: ${DATABASE_URL}
+      PG_LITE_DATA_DIR: /data/pglite
       NODE_ENV: development
     volumes:
       - ./:/app
-    depends_on:
-      - laneh-db
+      - ${DATABASE_LOCATION}:/data/pglite
     networks:
       - laneh-network
     command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
-
-configs:
-  init-db-user:
-    content: |
-      CREATE USER ${APP_DB_USER} WITH PASSWORD '${APP_DB_PASSWORD}';
-      GRANT CONNECT ON DATABASE ${POSTGRES_DB} TO ${APP_DB_USER};
-      GRANT USAGE ON SCHEMA public TO ${APP_DB_USER};
-      GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO ${APP_DB_USER};
-      ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO ${APP_DB_USER};
 
 networks:
   laneh-network:

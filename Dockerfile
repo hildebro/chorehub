@@ -3,6 +3,8 @@ FROM node:25-alpine AS builder
 
 WORKDIR /app
 
+RUN mkdir -p /data/pglite
+
 # Copy package files and install dependencies (cached layer)
 COPY package*.json ./
 RUN npm install
@@ -18,15 +20,12 @@ FROM node:25-alpine
 
 WORKDIR /app
 
-# Copy only the built artifacts from the builder stage
 COPY --from=builder /app/build ./build
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/drizzle.config.ts ./
 COPY --from=builder /app/drizzle ./drizzle
 
-# Expose the port your application runs on
 EXPOSE 3000
 
-# Start the application. Use `node` and the entry point of your built app.
-CMD ["sh", "-c", "npm run db:migrate && node build"]
+CMD ["sh", "-c", "node build"]

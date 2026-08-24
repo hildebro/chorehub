@@ -12,6 +12,7 @@ node_modules
 .wrangler
 /.svelte-kit
 /build
+/pglite-data/*
 
 # OS
 .DS_Store

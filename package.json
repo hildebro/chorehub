@@ -53,6 +53,7 @@
 		"@capacitor/core": "^8.3.1",
 		"@capacitor/preferences": "^8.0.1",
 		"@capacitor/status-bar": "^8.0.1",
+		"@electric-sql/pglite": "^0.5.7",
 		"@hono/zod-validator": "^0.7.6",
 		"@oslojs/crypto": "^1.0.1",
 		"@oslojs/encoding": "^1.1.0",
@@ -62,7 +63,6 @@
 		"fast-levenshtein": "^3.0.0",
 		"hono": "^4.12.11",
 		"lucide-svelte": "^0.577.0",
-		"postgres": "^3.4.8",
 		"tar-stream": "^3.1.8",
 		"zod": "^4.3.6"
 	}

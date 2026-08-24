@@ -15,8 +15,8 @@ shared household with multiple users.
 - Download [.env.example](.env.example) into the folder
 - Rename the file to `.env`
 - Feel free to adjust the timezone in `.env` to fit your location. The remaining values can be kept as-is without any
-  issues. The postgres password doesn't need to be an actually strong random secret, because the container doesn't need
-  to be publicly exposed.
+  issues.
+- Create an empty folder called `pqlite-data` (must match `DATABASE_LOCATION` value from .env)
 - run `docker compose up -d`
 - Access the app via http://localhost:3000
 
@@ -67,7 +67,6 @@ messages are clean.
 - Clone this repository.
 - Copy `.env.exmaple` to `.env`
 - Start the container via `docker compose up`
-- Initiate the database via `docker compose exec laneh-app npm run db:migrate`
 - Access the app via http://localhost:5173
 
 ### Android (static)

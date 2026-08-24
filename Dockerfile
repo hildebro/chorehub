@@ -25,7 +25,10 @@ COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/drizzle.config.ts ./
 COPY --from=builder /app/drizzle ./drizzle
+COPY --from=builder /app/scripts ./scripts
 
 EXPOSE 3000
 
-CMD ["sh", "-c", "node build"]
+# Chain the migration script before starting the server
+CMD ["sh", "-c", "node scripts/migrate.ts && node build"]
+

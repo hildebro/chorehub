@@ -16,7 +16,10 @@
 		"db:push": "drizzle-kit push",
 		"db:migrate": "drizzle-kit migrate",
 		"db:studio": "drizzle-kit studio",
-		"full-start": "concurrently --kill-others \"npm run dev\" \"npm run db:start\""
+		"full-start": "concurrently --kill-others \"npm run dev\" \"npm run db:start\"",
+		"migrate:prod": "vite-node scripts/migrate.ts",
+		"start": "node build",
+		"serve": "npm run migrate:prod && npm run start"
 	},
 	"devDependencies": {
 		"@capacitor/cli": "^8.3.1",

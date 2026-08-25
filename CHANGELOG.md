@@ -1,3 +1,10 @@
+## [2.17.1](https://github.com/hildebro/laneh/compare/v2.17.0...v2.17.1) (2026-08-25)
+
+
+### Bug Fixes
+
+* simplified export ([2e69b2a](https://github.com/hildebro/laneh/commit/2e69b2ae68df2b5bcfca1b1c9db00780c960ebbf))
+
 # [2.17.0](https://github.com/hildebro/laneh/compare/v2.16.0...v2.17.0) (2026-08-22)
 
 

@@ -51,19 +51,20 @@ export function generateDatabaseBackup() {
           continue;
         }
 
-        if (!tableName) continue;
+        // system_store is automatically populated, so no need to export.
+        if (!tableName || tableName === 'system_store') {
+          continue;
+        }
 
         // Fetch all rows for this dynamic table
         // Need to use admin db connection, because it will circumvent RLS.
         const rows = await adminDb.select().from(entity as Table);
 
         if (rows.length === 0) {
-          await appendEntry(`${tableName}.sql`, '-- No data\n');
           continue;
         }
 
         const tableCols = getTableColumns(entity as Table);
-        let sql = `-- Dump for table: ${tableName}\n\n`;
 
         // Convert the JS keys back to their snake_case DB equivalents
         const columns = Object.keys(rows[0])
@@ -74,10 +75,13 @@ export function generateDatabaseBackup() {
           })
           .join(', ');
 
-        for (const row of rows) {
-          const values = Object.values(row).map(escapeSqlValue).join(', ');
-          sql += `INSERT INTO "${tableName}" (${columns}) VALUES (${values});  \n`;
-        }
+        // Map all rows into grouped value strings with indentation
+        const allValues = rows.map((row) => {
+          return `  (${Object.values(row).map(escapeSqlValue).join(', ')})`;
+        }).join(',\n'); // Add a newline after each row
+
+        // Create exactly ONE massive INSERT statement per table, properly formatted
+        const sql = `INSERT INTO "${tableName}" (${columns}) VALUES\n${allValues};\n`;
 
         await appendEntry(`${tableName}.sql`, sql);
       }

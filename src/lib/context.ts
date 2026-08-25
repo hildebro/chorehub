@@ -1,4 +1,4 @@
-import type { ExtractTablesWithRelations } from 'drizzle-orm';
+import { type ExtractTablesWithRelations, sql } from 'drizzle-orm';
 import type { PgTransaction } from 'drizzle-orm/pg-core';
 import type { PostgresJsQueryResultHKT } from 'drizzle-orm/postgres-js';
 import { AsyncLocalStorage } from 'node:async_hooks';
@@ -21,6 +21,15 @@ export function getTx(): TransactionalDbClient {
       'Database transaction context is not available. Ensure this function runs within a request handled by the transaction hook.'
     );
   }
+
+  return tx;
+}
+
+export async function getAdminTx(): Promise<TransactionalDbClient> {
+  const tx = getTx();
+
+  await tx.execute(sql`RESET ROLE`);
+  await tx.execute(sql`SET LOCAL row_security = 'off'`);
 
   return tx;
 }

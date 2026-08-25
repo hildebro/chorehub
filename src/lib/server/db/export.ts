@@ -2,7 +2,7 @@ import { getTableColumns, getTableName, type Table } from 'drizzle-orm';
 import { PassThrough, Readable } from 'node:stream';
 import { createGzip } from 'node:zlib';
 import tar from 'tar-stream';
-import { adminDb } from '$lib/server/db';
+import { getAdminTx } from '$lib/context';
 import * as schema from '$lib/server/db/schema';
 
 function escapeSqlValue(val: unknown): string {
@@ -56,9 +56,8 @@ export function generateDatabaseBackup() {
           continue;
         }
 
-        // Fetch all rows for this dynamic table
-        // Need to use admin db connection, because it will circumvent RLS.
-        const rows = await adminDb.select().from(entity as Table);
+        const tx = await getAdminTx();
+        const rows = await tx.select().from(entity as Table);
 
         if (rows.length === 0) {
           continue;

@@ -7,8 +7,8 @@ import zlib from 'node:zlib';
 import tar from 'tar-stream';
 import { dev } from '$app/environment';
 import { SESSION_COOKIE } from '$lib';
+import { getAdminTx } from '$lib/context';
 import { getLoggedInUser } from '$lib/server/auth';
-import { adminDb } from '$lib/server/db';
 import {
   addHousehold,
   addUser,
@@ -114,7 +114,9 @@ const publicRouter = new Hono()
           sqlContent += chunk;
         });
         stream.on('end', () => {
-          if (sqlContent.trim()) queries.push(sqlContent);
+          if (sqlContent.trim()) {
+            queries.push(sqlContent.trim());
+          }
           next();
         });
       });
@@ -126,16 +128,21 @@ const publicRouter = new Hono()
       Readable.from(buffer).pipe(zlib.createGunzip()).pipe(extract);
     });
 
-    const db = adminDb;
+    const tx = await getAdminTx();
     try {
-      // Temporarily disable foreign key constraints and triggers for the import
-      await db.execute(sql`SET session_replication_role = replica;`);
+      // SET LOCAL automatically reverts when the transaction ends!
+      // No need for a finally block to clean it up.
+      await tx.execute(sql`SET LOCAL session_replication_role = 'replica';`);
 
       for (const query of queries) {
-        await db.execute(sql.raw(query));
+        await tx.execute(sql.raw(query));
       }
-    } finally {
-      await db.execute(sql`SET session_replication_role = origin;`);
+    } catch (err) {
+      // Now we will actually see why the import is failing!
+      console.error('❌ Database Import Failed:', err);
+
+      // Re-throw the error so Drizzle knows to safely ROLLBACK the transaction
+      throw err;
     }
 
     return c.json({ success: true });

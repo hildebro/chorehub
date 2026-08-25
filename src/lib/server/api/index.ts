@@ -44,10 +44,11 @@ app.use('*', async (c, next) => {
     return c.json({ error: 'Unauthorized' }, 401);
   }
 
-  // Inject the household ID into the current Postgres transaction
   const tx = getTx();
+
+  // Inject the household ID and downgrade the role in the current Postgres transaction
+  await tx.execute(sql`SET LOCAL ROLE app_user`);
   await tx.execute(
-    // 'true' ensures this config only lasts until the transaction ends
     sql`SELECT set_config('app.current_household_id', ${user.householdId}, true)`
   );
 

@@ -44,7 +44,6 @@
     }
   ],
   "dashboard_shopping_last_purchase": "Letzter Einkauf am {date}",
-  "demo_mode": "Demo Modus ausprobieren",
   "error_category_not_found": "Kategorie nicht gefunden",
   "error_balance_entry_not_found": "Eintrag nicht gefunden",
   "error_database_export": "Es gab einen Server Fehler, während der Datenbank Export erstellt wurde.",
@@ -88,6 +87,7 @@
   "initiate_info": "Willkommen in Laneh.\n\nBitte lege eine:n Nutzer:in als Serveradmin und einen Haushalt an.\n\nDer Admin wird automatisch teil des Haushalts sein. Du kannst später weitere Nutzer:innen und Haushalte hinzufügen.\n\nAlternativ kannst du auch einen Datenbankdump von einer früheren Serverinstanz importieren.",
   "initiate_submit": "Server initiieren",
   "initiate_username": "Benutzername",
+  "local_mode": "Ohne Server fortfahren",
   "login_headline": "Willkommen in Laneh",
   "navigation_balance": "Saldo",
   "navigation_dashboard": "Übersicht",

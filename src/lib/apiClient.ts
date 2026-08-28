@@ -4,7 +4,7 @@ import { hc } from 'hono/client';
 import { resolve } from '$app/paths';
 import type { AppType } from '$lib/backend/api';
 import { getBaseUrl } from '$lib/config';
-import { handleDemoMode, isDemoMode } from '$lib/demo';
+import { isLocaleMode } from '$lib/localMode';
 
 export function getApiClient(customFetch?: typeof fetch) {
   // Use the provided fetch (useful for SvelteKit load functions) or fallback to the global browser fetch
@@ -12,10 +12,6 @@ export function getApiClient(customFetch?: typeof fetch) {
 
   // Create our interceptor
   const authFetch = async (input: RequestInfo | URL, init?: RequestInit) => {
-    if (await isDemoMode()) {
-      return handleDemoMode(input, init);
-    }
-
     // 1. Clone the init object and headers so we don't mutate the original
     const requestInit = { ...init };
     const headers = new Headers(requestInit.headers);
@@ -38,7 +34,33 @@ export function getApiClient(customFetch?: typeof fetch) {
 
     requestInit.headers = headers;
 
-    // 3. Execute the actual network request
+    // === OFFLINE MODE INTERCEPTION ===
+    if (await isLocaleMode()) {
+      const { default: localApp } = await import('$lib/backend/api');
+
+      // Ensure migrations only run once per app load (or use a flag)
+      if (!window.__LOCAL_DB_INITIALIZED__) {
+        const { initLocalDatabase } = await import('$lib/backend/db/initLocal');
+        await initLocalDatabase();
+        window.__LOCAL_DB_INITIALIZED__ = true;
+      }
+
+      // 2. Convert the input to a string URL. If it's a relative path,
+      // make it absolute using a dummy domain so Hono's router can parse it.
+      let urlStr = input.toString();
+      if (urlStr.startsWith('/')) {
+        urlStr = `http://localhost${urlStr}`;
+      }
+
+      // 3. Create a standard Web Request
+      const localRequest = new Request(urlStr, requestInit);
+
+      // 4. Pass directly to Hono. No network traffic occurs!
+      return localApp.fetch(localRequest);
+    }
+    // =================================
+
+    // Execute standard network request
     const response = await baseFetch(input, requestInit);
 
     // 4. Intercept the response to check for a refreshed token globally!

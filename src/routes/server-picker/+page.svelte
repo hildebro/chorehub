@@ -2,7 +2,7 @@
   import { goto } from '$app/navigation';
   import { resolve } from '$app/paths';
   import { getApiClient } from '$lib/apiClient';
-  import { setDemoMode } from '$lib/demo';
+  import { setLocalMode } from '$lib/localMode';
   import * as m from '$lib/paraglide/messages.js';
   import { addToast } from '$lib/stores/toast';
   import { handleApiLoad } from '$lib/utils/apiHelper';
@@ -32,8 +32,8 @@
     }
   }
 
-  async function demoMode() {
-    await setDemoMode();
+  async function localMode() {
+    await setLocalMode();
     await goto(resolve('/'));
   }
 </script>
@@ -50,7 +50,7 @@
     />
     <div class="action-row">
       <button type="button" onclick={saveUrl}>{m.server_picker_connect()}</button>
-      <button type="button" onclick={demoMode}>{m.demo_mode()}</button>
+      <button type="button" onclick={localMode}>{m.local_mode()}</button>
     </div>
   </article>
 </main>

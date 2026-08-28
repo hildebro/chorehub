@@ -44,7 +44,6 @@
     }
   ],
   "dashboard_shopping_last_purchase": "Last purchase on {date}",
-  "demo_mode": "Try Demo Mode",
   "error_category_not_found": "Category not found",
   "error_balance_entry_not_found": "Entry not found",
   "error_database_export": "There was a server error while trying to download the export.",
@@ -88,6 +87,7 @@
   "initiate_info": "Welcome to Laneh.\n\nPlease create a server admin user and a household.\n\nThe user will automatically be part of the household. You can add more users and households later.\n\nAlternatively, you can import a database dump from a previous server instance.",
   "initiate_submit": "Initiate server",
   "initiate_username": "Username",
+  "local_mode": "Continue without server",
   "login_headline": "Welcome to Laneh",
   "navigation_balance": "Balance",
   "navigation_dashboard": "Dashboard",

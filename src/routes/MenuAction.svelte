@@ -7,7 +7,6 @@
   import { getApiClient } from '$lib/apiClient';
   import ApiForm from '$lib/components/ApiForm.svelte';
   import { getBaseUrl } from '$lib/config';
-  import { isDemoMode } from '$lib/demo';
   import * as m from '$lib/paraglide/messages.js';
   import { handleApiLoad } from '$lib/utils/apiHelper';
 
@@ -62,11 +61,6 @@
   onMount(async () => {
     // Don't check for version, if we are on mobile and don't have a defined server yet.
     if (Capacitor.isNativePlatform() && getBaseUrl() === '') {
-      return;
-    }
-
-    // Can't check versions on demo mode either.
-    if (await isDemoMode()) {
       return;
     }
 

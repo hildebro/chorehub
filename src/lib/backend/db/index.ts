@@ -3,15 +3,14 @@ import { drizzle } from 'drizzle-orm/pglite';
 import * as schema from './schema';
 import { browser } from '$app/environment';
 
-let dataDir = 'idb://my-app-local-db'; // Default for Capacitor / Offline Mode
+let dataDir = 'idb://my-app-local-db'; // Default for Capacitor / Local-Only Mode
 
-// If we are NOT in the browser, we are running on the Node server.
 if (!browser) {
-  // Dynamically import private envs so Vite strips this from the client bundle
-  const { env } = await import('$env/dynamic/private');
+  const dockerLocation = typeof process !== 'undefined' && process.env
+    ? process.env.DOCKER_DATABASE_LOCATION
+    : undefined;
 
-  // Use the Docker location or fallback
-  dataDir = env.DOCKER_DATABASE_LOCATION || '/data/pglite';
+  dataDir = dockerLocation || '/data/pglite';
 }
 
 export const client = new PGlite(dataDir);

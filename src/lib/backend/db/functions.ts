@@ -1,5 +1,4 @@
 import { encodeBase32LowerCase } from '@oslojs/encoding';
-import { randomBytes } from 'crypto';
 import {
   and,
   asc,
@@ -333,7 +332,14 @@ export const dismissHelpDisclaimer = async (userId: string) => {
 export const createSession = async (userId: string) => {
   const db = getTx();
 
-  const sessionToken = randomBytes(32).toString('hex');
+  // 1. Create an array to hold 32 bytes
+  const buffer = new Uint8Array(32);
+  // 2. Fill it with cryptographically strong random values
+  globalThis.crypto.getRandomValues(buffer);
+  // 3. Convert the Uint8Array to a hex string
+  const sessionToken = Array.from(buffer)
+    .map(byte => byte.toString(16).padStart(2, '0'))
+    .join('');
 
   const daysToKeepAlive = 10;
   const secondsToKeepAlive = 60 * 60 * 24 * daysToKeepAlive;
@@ -1316,7 +1322,7 @@ function formatDateToYYYYMMDD(date: Date): string {
 
 function generateUUID() {
   // ID with 120 bits of entropy, or about the same as UUID v4.
-  const bytes = crypto.getRandomValues(new Uint8Array(15));
+  const bytes = globalThis.crypto.getRandomValues(new Uint8Array(15));
   return encodeBase32LowerCase(bytes);
 }
 

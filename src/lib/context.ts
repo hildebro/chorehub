@@ -1,15 +1,52 @@
 import { type ExtractTablesWithRelations, sql } from 'drizzle-orm';
 import type { PgTransaction } from 'drizzle-orm/pg-core';
 import type { PostgresJsQueryResultHKT } from 'drizzle-orm/postgres-js';
-import { AsyncLocalStorage } from 'node:async_hooks';
+import { browser } from '$app/environment';
 import type * as schema from '$lib/backend/db/schema';
 
 // Define the type for the value stored in the context (our transactional client)
 type TransactionalDbClient = PgTransaction<PostgresJsQueryResultHKT, typeof schema, ExtractTablesWithRelations<typeof schema>>;
 
-// Create the AsyncLocalStorage instance
-// This will hold the transactional DB client for the current request
-export const transactionContext = new AsyncLocalStorage<TransactionalDbClient>();
+// 1. Create a lightweight, browser-safe fallback for Capacitor
+class BrowserALS<T> {
+  private store: T | undefined;
+
+  getStore(): T | undefined {
+    return this.store;
+  }
+
+  run<R>(store: T, callback: () => R): R {
+    const previousStore = this.store;
+    this.store = store;
+    try {
+      return callback();
+    } finally {
+      this.store = previousStore;
+    }
+  }
+}
+
+// 2. Define a common interface so TypeScript knows what methods exist
+interface IAsyncLocalStorage<T> {
+  getStore(): T | undefined;
+
+  run<R>(store: T, callback: () => R): R;
+}
+
+// 3. Dynamically assign the correct implementation
+let ALS: new <T>() => IAsyncLocalStorage<T>;
+
+if (browser) {
+  // Use the local polyfill for the mobile app
+  ALS = BrowserALS;
+} else {
+  // Dynamic import prevents Rollup from throwing a named-export error on client build
+  const asyncHooks = await import('node:async_hooks');
+  ALS = asyncHooks.AsyncLocalStorage;
+}
+
+// Create the AsyncLocalStorage instance using our dynamically resolved class
+export const transactionContext = new ALS<TransactionalDbClient>();
 
 // Helper function to safely get the transaction client from the context
 export function getTx(): TransactionalDbClient {

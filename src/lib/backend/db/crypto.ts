@@ -2,7 +2,7 @@ import { argon2id, argon2Verify } from 'hash-wasm';
 
 export const hashPassword = async (password: string): Promise<string> => {
   const salt = new Uint8Array(16);
-  crypto.getRandomValues(salt);
+  globalThis.crypto.getRandomValues(salt);
 
   return argon2id({
     password: password,

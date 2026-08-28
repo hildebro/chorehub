@@ -2,9 +2,6 @@ import { zValidator } from '@hono/zod-validator';
 import { sql } from 'drizzle-orm';
 import { Hono } from 'hono';
 import { setCookie } from 'hono/cookie';
-import { Readable } from 'node:stream';
-import zlib from 'node:zlib';
-import tar from 'tar-stream';
 import { dev } from '$app/environment';
 import { SESSION_COOKIE } from '$lib';
 import { getLoggedInUser } from '$lib/backend/auth';
@@ -20,6 +17,46 @@ import {
 import { getAdminTx } from '$lib/context';
 import { Admin } from '$lib/utils/userHelper';
 import { z } from '$lib/zod';
+
+async function extractTarGz(arrayBuffer: ArrayBuffer): Promise<string[]> {
+  const ds = new DecompressionStream('gzip');
+  const writer = ds.writable.getWriter();
+  writer.write(new Uint8Array(arrayBuffer));
+  writer.close();
+
+  // Trick to easily consume a Web Stream into an ArrayBuffer (works in browser & Node)
+  const response = new Response(ds.readable);
+  const decompressedBuffer = await response.arrayBuffer();
+  const buffer = new Uint8Array(decompressedBuffer);
+
+  const queries: string[] = [];
+  let offset = 0;
+  const decoder = new TextDecoder();
+
+  while (offset < buffer.length - 512) {
+    const header = buffer.subarray(offset, offset + 512);
+    if (header[0] === 0) break; // End of archive
+
+    const name = decoder.decode(header.subarray(0, 100)).replace(/\0/g, '');
+    const sizeStr = decoder.decode(header.subarray(124, 136)).trim();
+    const size = parseInt(sizeStr, 8);
+
+    offset += 512;
+
+    if (name.endsWith('.sql')) {
+      const content = buffer.subarray(offset, offset + size);
+      const sqlString = decoder.decode(content).trim();
+      if (sqlString) queries.push(sqlString);
+    }
+
+    offset += size;
+    if (size % 512 !== 0) {
+      offset += 512 - (size % 512); // Skip padding
+    }
+  }
+
+  return queries;
+}
 
 const initiateSchema = z.object({
   householdName: z.string().trim().nonempty(),
@@ -91,42 +128,11 @@ const publicRouter = new Hono()
 
     const importFile = c.req.valid('form');
 
-    // Convert the uploaded file to a Node Buffer
+    // Get the standard Web ArrayBuffer directly from the uploaded file
     const arrayBuffer = await importFile.dumpFile.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
 
-    const queries: string[] = [];
-
-    await new Promise<void>((resolve, reject) => {
-      const extract = tar.extract();
-
-      extract.on('entry', (header, stream, next) => {
-        // Only process .sql files
-        if (!header.name.endsWith('.sql')) {
-          stream.on('end', () => next());
-          stream.resume();
-
-          return;
-        }
-
-        let sqlContent = '';
-        stream.on('data', (chunk) => {
-          sqlContent += chunk;
-        });
-        stream.on('end', () => {
-          if (sqlContent.trim()) {
-            queries.push(sqlContent.trim());
-          }
-          next();
-        });
-      });
-
-      extract.on('finish', () => resolve());
-      extract.on('error', (err) => reject(err));
-
-      // Pipe the buffer through gunzip and into the tar extractor
-      Readable.from(buffer).pipe(zlib.createGunzip()).pipe(extract);
-    });
+    // Extract using our cross-platform function
+    const queries = await extractTarGz(arrayBuffer);
 
     const tx = await getAdminTx();
     try {

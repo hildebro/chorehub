@@ -74,7 +74,7 @@ messages are clean.
 - Requires `npm` and an Android development environment
 - Connect your phone to the PC
 - Follow the [Web](#web) steps
-- Run `CAPACITOR_BUILD=true npm run build`
+- Run `DOCKER_DATABASE_LOCATION=./pglite-data CAPACITOR_BUILD=true npm run build`
 - Run `npx cap sync android`
 - Run `npx cap run android`
 

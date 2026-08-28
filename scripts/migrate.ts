@@ -2,7 +2,7 @@ import { PGlite } from '@electric-sql/pglite';
 import { drizzle } from 'drizzle-orm/pglite';
 import { migrate } from 'drizzle-orm/pglite/migrator';
 
-const dataDir = process.env.PG_LITE_DATA_DIR || '/data/pglite';
+const dataDir = process.env.DOCKER_DATABASE_LOCATION || '/data/pglite';
 
 async function run() {
   console.log(`⏳ Running migrations on database at ${dataDir}...`);

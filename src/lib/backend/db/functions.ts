@@ -20,10 +20,9 @@ import {
 } from 'drizzle-orm';
 import type { AnyPgColumn } from 'drizzle-orm/pg-core';
 import { lte } from 'drizzle-orm/sql/expressions/conditions';
-import { getTx } from '$lib/context';
-import type { UserPayload } from '$lib/server/api/user';
-import { hashPassword, verifyPassword } from '$lib/server/db/crypto';
-import * as table from '$lib/server/db/schema';
+import type { UserPayload } from '$lib/backend/api/user';
+import { hashPassword, verifyPassword } from '$lib/backend/db/crypto';
+import * as table from '$lib/backend/db/schema';
 import {
   type Session,
   shoppingCategory,
@@ -31,10 +30,12 @@ import {
   type ShoppingCategoryWithRelation,
   type ShoppingItem,
   shoppingItem,
-  stagedShoppingPurchaseItem, type Task,
+  stagedShoppingPurchaseItem,
+  type Task,
   type TaskWithRelation,
   type User
-} from '$lib/server/db/schema';
+} from '$lib/backend/db/schema';
+import { getTx } from '$lib/context';
 import { SystemStoreKey } from '$lib/utils/systemStoreHelper';
 import { Assignment, TaskType, type Weekday } from '$lib/utils/taskHelper';
 import { Admin } from '$lib/utils/userHelper';

@@ -3,11 +3,11 @@
   import TaskDrawer from './TaskDrawer.svelte';
   import { resolve } from '$app/paths';
   import { getApiClient } from '$lib/apiClient';
+  import type { FrontendTask } from '$lib/backend/api/task';
   import ApiForm from '$lib/components/ApiForm.svelte';
   import ApiFormItem from '$lib/components/ApiFormItem.svelte';
   import Confetti from '$lib/components/Confetti.svelte';
   import * as m from '$lib/paraglide/messages.js';
-  import type { FrontendTask } from '$lib/server/api/task';
   import { Assignment, TaskType } from '$lib/utils/taskHelper';
 
   let { data } = $props();

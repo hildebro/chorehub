@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { type ShoppingCategoryWithRelation, type ShoppingItem } from '$lib/server/db/schema';
+  import { type ShoppingCategoryWithRelation, type ShoppingItem } from '$lib/backend/db/schema';
 
   // unfiltered implies that all items should be displayed, including deactivated ones.
   let { categories, unfiltered = false, value = $bindable([]) } = $props();

@@ -1,8 +1,8 @@
 import { zValidator } from '@hono/zod-validator';
 import { Hono } from 'hono';
-import type { AppEnv } from '$lib/server/api/types';
-import { logout } from '$lib/server/auth';
-import { generateDatabaseBackup } from '$lib/server/db/export';
+import type { AppEnv } from '$lib/backend/api/types';
+import { logout } from '$lib/backend/auth';
+import { generateDatabaseBackup } from '$lib/backend/db/export';
 import {
   addUser,
   assertLoggedInUserAuthorizedUpdate,
@@ -14,7 +14,7 @@ import {
   isUsernameTaken,
   updateDefaultDistribution,
   updateUser
-} from '$lib/server/db/functions';
+} from '$lib/backend/db/functions';
 import { Admin } from '$lib/utils/userHelper';
 import { z } from '$lib/zod';
 

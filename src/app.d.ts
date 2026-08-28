@@ -1,7 +1,7 @@
 // noinspection JSUnusedGlobalSymbols Intellij doesn't see the usage, because it's through
 // auto-generated files.
 
-import type { User } from '$lib/server/db/schema';
+import type { User } from '$lib/backend/db/schema';
 
 declare global {
   namespace App {

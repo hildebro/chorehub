@@ -2,9 +2,9 @@ import { Capacitor } from '@capacitor/core';
 import { Preferences } from '@capacitor/preferences';
 import { hc } from 'hono/client';
 import { resolve } from '$app/paths';
+import type { AppType } from '$lib/backend/api';
 import { getBaseUrl } from '$lib/config';
 import { handleDemoMode, isDemoMode } from '$lib/demo';
-import type { AppType } from '$lib/server/api';
 
 export function getApiClient(customFetch?: typeof fetch) {
   // Use the provided fetch (useful for SvelteKit load functions) or fallback to the global browser fetch

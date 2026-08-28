@@ -7,8 +7,7 @@ import zlib from 'node:zlib';
 import tar from 'tar-stream';
 import { dev } from '$app/environment';
 import { SESSION_COOKIE } from '$lib';
-import { getAdminTx } from '$lib/context';
-import { getLoggedInUser } from '$lib/server/auth';
+import { getLoggedInUser } from '$lib/backend/auth';
 import {
   addHousehold,
   addUser,
@@ -17,7 +16,8 @@ import {
   findAndVerifyUser,
   getCachedRemoteVersion,
   setCachedRemoteVersion
-} from '$lib/server/db/functions';
+} from '$lib/backend/db/functions';
+import { getAdminTx } from '$lib/context';
 import { Admin } from '$lib/utils/userHelper';
 import { z } from '$lib/zod';
 

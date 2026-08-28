@@ -1,4 +1,4 @@
-import type { User } from '$lib/server/db/schema';
+import type { User } from '$lib/backend/db/schema';
 
 export type Variables = {
   loggedInUser: User;

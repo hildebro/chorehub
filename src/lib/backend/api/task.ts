@@ -1,17 +1,17 @@
 import { zValidator } from '@hono/zod-validator';
 import { Hono } from 'hono';
-import type { AppEnv } from '$lib/server/api/types';
+import type { AppEnv } from '$lib/backend/api/types';
 import {
   addTask,
+  completeTask,
   countDueTasks,
   findCompletedTasks,
   findDueTasks,
   findTask,
   findUpcomingTasks,
-  completeTask,
   updateTask
-} from '$lib/server/db/functions';
-import type { Task, TaskWithRelation } from '$lib/server/db/schema';
+} from '$lib/backend/db/functions';
+import type { Task, TaskWithRelation } from '$lib/backend/db/schema';
 import { Assignment, TaskType, Weekday } from '$lib/utils/taskHelper';
 import { z } from '$lib/zod';
 

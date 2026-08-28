@@ -2,7 +2,7 @@ import type { Context } from 'hono';
 import { deleteCookie, getCookie, setCookie } from 'hono/cookie';
 import { dev } from '$app/environment';
 import { SESSION_COOKIE } from '$lib';
-import { createSession, deleteSession, findSession, findUser } from '$lib/server/db/functions';
+import { createSession, deleteSession, findSession, findUser } from '$lib/backend/db/functions';
 
 const ONE_DAY_IN_MS = 24 * 60 * 60 * 1000;
 const THREE_DAYS_IN_MS = 3 * ONE_DAY_IN_MS;

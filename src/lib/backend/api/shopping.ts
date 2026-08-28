@@ -1,7 +1,6 @@
 import { zValidator } from '@hono/zod-validator';
 import { Hono } from 'hono';
-import * as m from '$lib/paraglide/messages.js';
-import type { AppEnv } from '$lib/server/api/types';
+import type { AppEnv } from '$lib/backend/api/types';
 import {
   addShoppingCategory,
   addStagedShoppingList,
@@ -28,7 +27,8 @@ import {
   stagePurchaseItem,
   unstagePurchaseItem,
   updateShoppingCategory
-} from '$lib/server/db/functions';
+} from '$lib/backend/db/functions';
+import * as m from '$lib/paraglide/messages.js';
 import { z } from '$lib/zod';
 
 const setCategorySchema = z.object({

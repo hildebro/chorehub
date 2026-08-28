@@ -6,7 +6,7 @@ import {
   findAllBalanceEntries,
   findBalanceEntry,
   updateBalanceEntry
-} from '$lib/server/db/functions';
+} from '$lib/backend/db/functions';
 import { z } from '$lib/zod';
 
 const baseExpenseSchema = z.object({

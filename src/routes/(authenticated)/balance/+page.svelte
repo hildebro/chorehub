@@ -1,7 +1,7 @@
 <script lang="ts">
   import { resolve } from '$app/paths';
+  import type { BalanceEntry } from '$lib/backend/db/schema';
   import * as m from '$lib/paraglide/messages.js';
-  import type { BalanceEntry } from '$lib/server/db/schema';
   import { dateFormatter, priceFormatter } from '$lib/utils/formatter';
 
   let { data } = $props();

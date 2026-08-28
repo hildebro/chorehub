@@ -1,16 +1,16 @@
 import { sql } from 'drizzle-orm';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
-import { transactionContext, getTx } from '$lib/context';
-import balanceRouter from '$lib/server/api/balance';
-import householdRouter from '$lib/server/api/household';
-import publicRouter from '$lib/server/api/public';
-import shoppingRouter from '$lib/server/api/shopping';
-import tasksRouter from '$lib/server/api/task';
-import type { AppEnv } from '$lib/server/api/types';
-import usersRouter from '$lib/server/api/user';
-import { getLoggedInUser } from '$lib/server/auth';
-import { db } from '$lib/server/db';
+import balanceRouter from '$lib/backend/api/balance';
+import householdRouter from '$lib/backend/api/household';
+import publicRouter from '$lib/backend/api/public';
+import shoppingRouter from '$lib/backend/api/shopping';
+import tasksRouter from '$lib/backend/api/task';
+import type { AppEnv } from '$lib/backend/api/types';
+import usersRouter from '$lib/backend/api/user';
+import { getLoggedInUser } from '$lib/backend/auth';
+import { db } from '$lib/backend/db';
+import { getTx, transactionContext } from '$lib/context';
 
 const app = new Hono<AppEnv>().basePath('/api');
 

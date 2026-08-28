@@ -2,8 +2,8 @@
   import { Check, Pencil } from 'lucide-svelte';
   import { SvelteDate } from 'svelte/reactivity';
   import { resolve } from '$app/paths';
+  import type { FrontendTask } from '$lib/backend/api/task';
   import * as m from '$lib/paraglide/messages.js';
-  import type { FrontendTask } from '$lib/server/api/task';
   import { shortDateFormatter } from '$lib/utils/formatter';
 
   type TaskPreset = 'Due' | 'Upcoming' | 'Done';

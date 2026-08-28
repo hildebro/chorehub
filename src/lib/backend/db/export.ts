@@ -2,8 +2,8 @@ import { getTableColumns, getTableName, type Table } from 'drizzle-orm';
 import { PassThrough, Readable } from 'node:stream';
 import { createGzip } from 'node:zlib';
 import tar from 'tar-stream';
+import * as schema from '$lib/backend/db/schema';
 import { getAdminTx } from '$lib/context';
-import * as schema from '$lib/server/db/schema';
 
 function escapeSqlValue(val: unknown): string {
   if (val === null || val === undefined) return 'NULL';

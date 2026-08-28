@@ -1,9 +1,9 @@
 import { zValidator } from '@hono/zod-validator';
 import { Hono } from 'hono';
-import type { AppEnv } from '$lib/server/api/types';
-import { addHousehold, findAllHouseholds, findHousehold, updateHousehold } from '$lib/server/db/functions';
-import { z } from '$lib/zod';
+import type { AppEnv } from '$lib/backend/api/types';
+import { addHousehold, findAllHouseholds, findHousehold, updateHousehold } from '$lib/backend/db/functions';
 import { Admin } from '$lib/utils/userHelper';
+import { z } from '$lib/zod';
 
 const createHouseholdSchema = z.object({
   name: z.string().nonempty()
